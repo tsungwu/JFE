@@ -1,0 +1,7 @@
+exportPattern("^[[:alpha:]]+")
+import("fPortfolio","tcltk","tcltk2","xts","quantmod")
+importFrom("grDevices", "dev.new","colorRampPalette")
+importFrom("graphics", "abline", "legend", "lines","par","plot", "plot.new")
+importFrom("utils", "head","tail", "write.csv")
+importFrom("stats", "as.formula", "cor", "cov","time", "na.omit")
+export("JFE")
