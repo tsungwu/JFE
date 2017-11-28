@@ -1,5 +1,8 @@
 
 .getReturns4Selection <- function(){
+  if ("PerformanceAnalytics" %in% (.packages())) {print("package PerformanceAnalytics is loaded")} else {
+    eval(parse( text="library(PerformanceAnalytics)"))}
+
   name <- tclvalue(tkgetOpenFile(
     filetypes = "{ {RData Files} {.RData}  } { {All Files} * }"))
   if (name == "")

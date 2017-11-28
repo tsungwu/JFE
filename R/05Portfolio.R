@@ -1,6 +1,7 @@
 
 .getReturns4backtesting <- function() {
 
+
   name <- tclvalue(tkgetOpenFile(
     filetypes = "{ {RData Files} {.RData} } { {All Files} * }"))
   if (name == "")

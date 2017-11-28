@@ -1,5 +1,8 @@
 
 .getPrice <- function() {
+  if ("quantmod" %in% (.packages())) {print("package quantmod is loaded")} else {
+   eval(parse( text="library(quantmod)"))}
+
   name <- tclvalue(tkgetOpenFile(
  filetypes = "{ {RData Files} {.RData} } { {All Files} * }"))
   if (name == "")
