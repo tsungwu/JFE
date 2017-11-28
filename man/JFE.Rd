@@ -17,8 +17,8 @@ Start the JFE GUI (graphical user interface)
 
 
 \details{
-After loading the package, in the command prompt, type JFE() to start the GUI. JFE is a platform-dependent GUI designed to support the analysis of financial time series data, with specific focus on, firstly, assets selection based on Performance index; secondly, portfolio optimization.\cr
-This command is an internal function to start the JFE GUI. To avoid unexpected problems of time series object, the imported data must be time series object (xts, or timeSeries) loaded by either  .RData or .rda;
+After loading the package, in the command prompt, type JFE() to start it. JFE is a menu-driven GUI designed to support the analysis of financial time series data with the aid of several R packages. The version 1.0 focuses on: Firstly, price visualization, including technical charting(by package quantmod); secondly, assets selection based on Performance index(by package PerformanceAnalytics); thirdly, portfolio optimization (by package fPortfolio).\cr
+This command is an internal function to start the JFE GUI. To avoid unexpected problems of time series object, the imported data must be time series object (xts, or timeSeries) loaded by either  .RData or .rda, file of .csv or other format is not supported; that is to say, users have only to know how to construct a R time-series object.
 }
 
 \value{
@@ -26,8 +26,9 @@ Generate a menu-driven GUI
 }
 
 \examples{
+
 JFE()
-#
+
 }
 
 
