@@ -11,10 +11,10 @@ URL:	http://www.iclick-r.idv.tw
 LazyData: TRUE
 LazyLoad: yes
 Depends:
-    R (>= 2.10),fPortfolio,quantmod,xts
+    R (>= 2.10),fPortfolio,xts
 Imports:
     BurStFin,
-    fAssets,fBasics,iClick,MASS,PerformanceAnalytics,
+    fAssets,fBasics,iClick,MASS,PerformanceAnalytics,quantmod,
     tcltk,tcltk2,timeDate,timeSeries
     
     
