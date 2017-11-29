@@ -1,4 +1,3 @@
-
 .getPrice <- function() {
   if ("quantmod" %in% (.packages())) {print("package quantmod is loaded")} else {
    eval(parse( text="library(quantmod)"))}
@@ -289,7 +288,7 @@ print(head(assetPrice))
 iClick::iClick.VisAssetPrice(assetPrice)
 }
 
-.iClickPrice_Menu <- function(){
+.iClickPrice_Menu <- function() {
 Price=get("Price",envir = .JFEEnv)
 top <- tktoplevel(borderwidth=10)
 tkwm.title(top, "Execute iClick for asset price")

@@ -1,6 +1,4 @@
-
 .getReturns4backtesting <- function() {
-
 
   name <- tclvalue(tkgetOpenFile(
     filetypes = "{ {RData Files} {.RData} } { {All Files} * }"))
@@ -118,33 +116,34 @@
 
   tkgrid(.getFrame(xBox),.getFrame(xBoxRM), sticky="n")
 
+
     rightFrame <- tkframe(top)
-
+#====Covariance Frame
 CovFrame <- tkframe(rightFrame)
-.radioButtons(top,name="Cov", buttons=c("covEstimator", "covLedoit","covStudent"), values=c("covEstimator", ".covLedoit",".covStudent"), labels=c("Sample Covariance", "LedoitWolf Shrinkage","Multivariate Student t"), title="Select Risk Estimator")
-CovVariable <- CovVariable
-tkgrid(CovFrame,sticky="w")
+         .radioButtons(top,name="Cov", buttons=c("covEstimator", "covLedoit","covStudent"), values=c("covEstimator", ".covLedoit",".covStudent"), labels=c("Sample Covariance", "LedoitWolf Shrinkage","Multivariate Student t"), title="Select Risk Estimator")
+         CovVariable <- CovVariable
+         tkgrid(CovFrame,sticky="w")
 
-
-   riskTypeFrame <- tkframe(rightFrame)
-  .radioButtons(top,name="riskType", buttons=c("MV", "CVaR"), values=c("MV", "CVaR"), labels=c("Mean-Variance", "CVaR"), title="Portfolio type")
-  riskTypeVariable <- riskTypeVariable
-  tkgrid(CovFrame,sticky="w")
-
-  StrategyFrame <- tkframe(rightFrame)
-  .radioButtons(top,name="Strategy", buttons=c("Tangency", "GMVP"), values=c("Tangency", "GMVP"), labels=c("Tangency", "GMVP"), title="Select Portfolio Strategy")
-  StrategyVariable <- StrategyVariable
-  tkgrid(CovFrame,sticky="w")
-
-  ConstraintFrame <- tkframe(rightFrame)
-  .radioButtons(top,name="Constraint", buttons=c("LongOnly", "Short"), values=c("LongOnly", "Short"), labels=c("LongOnly", "Short"), title="Select Portfolio constraint")
-  ConstraintVariable <- ConstraintVariable
-  tkgrid(CovFrame,sticky="w")
+#==== Risk type Frame
+riskTypeFrame <- tkframe(rightFrame)
+         .radioButtons(top,name="riskType", buttons=c("MV", "CVaR"), values=c("MV", "CVaR"), labels=c("Mean-Variance", "CVaR"), title="Portfolio type")
+         riskTypeVariable <- riskTypeVariable
+         tkgrid(CovFrame,sticky="w")
+#====  Strategy Frame
+StrategyFrame <- tkframe(rightFrame)
+         .radioButtons(top,name="Strategy", buttons=c("Tangency", "GMVP"), values=c("Tangency", "GMVP"), labels=c("Tangency", "GMVP"), title="Select Portfolio Strategy")
+         StrategyVariable <- StrategyVariable
+         tkgrid(CovFrame,sticky="w")
+#====  Constraint Frame
+ConstraintFrame <- tkframe(rightFrame)
+         .radioButtons(top,name="Constraint", buttons=c("LongOnly", "Short"), values=c("LongOnly", "Short"), labels=c("LongOnly", "Short"), title="Select Portfolio constraint")
+         ConstraintVariable <- ConstraintVariable
+         tkgrid(CovFrame,sticky="w")
 
 
  tkgrid(CovFrame, riskTypeFrame, StrategyFrame,ConstraintFrame,rightFrame,sticky="w")
 
-  #Risk-free rate entry
+  #====Risk-free rate entry
   rfFrame <- tkframe(rightFrame)
   rfVariable <- tclVar("0")
   rfField <- tkentry(rfFrame, width="6", textvariable=rfVariable)
@@ -152,7 +151,7 @@ tkgrid(CovFrame,sticky="w")
   tkgrid(rfFrame, sticky="w")
   tkgrid.configure(rfField, sticky="e")
 
-  #Lambda entry
+  #====Lambda entry
   lambdaFrame <- tkframe(rightFrame)
   lambdaVariable <- tclVar("1m")
   lambdaField <- tkentry(lambdaFrame, width="6", textvariable=lambdaVariable)
@@ -176,7 +175,6 @@ tkgrid(CovFrame,sticky="w")
   tkpack(quitButton, side = "left",fill = "x",ipady=2)
   tkfocus(top)
 }
-
 
 
 
@@ -205,7 +203,7 @@ tkgrid(CovFrame,sticky="w")
 
 
 
-.iClickPortfolio_Menu <- function(){
+.iClickBacktesting_Menu <- function(){
   retAS=get("retAS",envir = .JFEEnv)
   top <- tktoplevel(borderwidth=10)
   tkwm.title(top, "iClick for Portfolio")
@@ -222,8 +220,6 @@ tkgrid(CovFrame,sticky="w")
       # return()
     }
 
-    TypeVariable <- TypeVariable
-    plotsVariable <- plotsVariable
     Type <- tclvalue(TypeVariable)
     plots <- tclvalue(plotsVariable)
     Rf <- tclvalue(rfVariable)
@@ -236,17 +232,28 @@ tkgrid(CovFrame,sticky="w")
   buttonsFrame <- tkframe(top,width=250)
   tkgrid(buttonsFrame, columnspan=2, sticky="w")
 
-  .radioButtons(top,name="Type", buttons=c("MV", "CVaR"), values=c("MV", "CVaR"), labels=c("Mean-Variance", "CVaR"), title="Type of Portfolio Risk")
-  .radioButtons(top,name="plots", buttons=c("simple", "all"), values=c("simple", "all"), labels=c("Simple", "All"), title="Numbers of plots")
-
+####===== Radio button frame
   rightFrame <- tkframe(top)
+
+  ###====== Risk Type Frame
+TypeFrame <- tkframe(rightFrame)
+  .radioButtons(top,name="Type", buttons=c("MV", "CVaR"), values=c("MV", "CVaR"), labels=c("Mean-Variance", "CVaR"), title="Type of Portfolio Risk")
+TypeVariable <- TypeVariable
+  tkgrid(TypeFrame,sticky="w")
+
+  ###====== Plot Frame
+plotsFrame <- tkframe(rightFrame)
+  .radioButtons(top,name="plots", buttons=c("simple", "all"), values=c("simple", "all"), labels=c("Simple", "All"), title="Numbers of plots")
+plotsVariable <- plotsVariable 
+  tkgrid(plotsFrame,sticky="w")
+  
   #tkgrid(rightFrame,sticky="w")
   #tkgrid(tklabel(rightFrame, text=""))
-  plotsFrame <- tkframe(rightFrame)
-  TypeFrame <- tkframe(rightFrame)
+ 
+ 
   tkgrid(plotsFrame, TypeFrame,rightFrame,sticky="w")
 
-
+#### Entry Frame
   #Risk-free rate entry
   rfFrame <- tkframe(rightFrame)
   rfVariable <- tclVar("0")
