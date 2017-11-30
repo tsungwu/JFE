@@ -295,7 +295,7 @@ tkfocus(top)
 .nigTriangle <- function(){
 retDF=get("retDF",envir = .JFEEnv)
 top <- tktoplevel(borderwidth=10)
-tkwm.title(top, "Plotting")
+tkwm.title(top, "NIG Plot")
 
 xBox <- .variableListBox(top, colnames(retDF), title="Variable (Pick one variable)")
 
@@ -329,3 +329,58 @@ tkpack(quitButton, side = "left",fill = "x",ipady=2)
 tkfocus(top)  
 }
 
+
+
+
+
+
+.iClickReturn <- function(dataz){
+Returns=dataz
+#print(head(Returns))
+iClick::iClick.VisOneReturns(Returns)
+}
+
+.iClickReturn_Menu <- function() {
+
+retDF=get("retDF",envir = .JFEEnv)
+
+top <- tktoplevel(borderwidth=10)
+tkwm.title(top, "iClick for 1 Asset Return")
+
+xBox <- .variableListBox(top, colnames(retDF), title="Variable (Pick one variable)")
+
+onOK <- function(){
+    x <- .getSelection(xBox)
+   if (length(x) == 0){
+   tkmessageBox(message = "You must select a variable.", icon = "error", type = "ok")
+    return()
+      }
+Dates=as.character(time(retDF[,x]))
+infile=na.omit(data.frame(Dates=Dates,ret=as.numeric(retDF[,x])))
+print(head(infile))
+.iClickReturn(infile)
+
+}
+  tkgrid(.getFrame(xBox), sticky="nw")
+  
+
+
+  buttonsFrame <- tkframe(top,width=250)
+  tkgrid(buttonsFrame, columnspan=2, sticky="w")
+
+okButton<-tkbutton(buttonsFrame, text = "OK", command = onOK, anchor = "center", relief="ridge", width = "8")
+tkbind(top,"Q",function() tcl(okButton,"invoke"))
+tkfocus(okButton)
+tkconfigure(okButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
+tkpack(okButton, side = "left",fill = "x",ipady=2)
+
+quitCMD <- function(){
+    tkdestroy(top)
+}
+
+quitButton<-tkbutton(buttonsFrame, text = "Quit", command = quitCMD, anchor = "center",relief="ridge",width = "8")
+tkconfigure(quitButton,foreground="red",font=tkfont.create(size=9,weight="bold"))
+tkpack(quitButton, side = "left",fill = "x",ipady=2)
+
+tkfocus(top)
+}

@@ -1,4 +1,3 @@
-
 .getReturns4Selection <- function(){
   if ("PerformanceAnalytics" %in% (.packages())) {print("package PerformanceAnalytics is loaded")} else {
     eval(parse( text="library(PerformanceAnalytics)"))}
