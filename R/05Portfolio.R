@@ -1576,14 +1576,11 @@ plotsVariable <- plotsVariable
   }
 
 
-###==Ledoit and Wolff(2003)====###
  .covLedoit <- function (x, spec = NULL) {
 x.mat = as.matrix(x)
 list(mu = colMeans(x.mat), Sigma = .SKCov(x.mat)$sigma)
 }
 
-
-###==Ledoit and Wolff(2003) Procedure====###
  .SKCov <- function(dat) {
 t=nrow(dat)
 n=ncol(dat)
@@ -1629,18 +1626,15 @@ w=list(sigma=sig,shrinkage=skg,prior=prior)
 return(w)
 }
 
-###==========###
 .LPM<-function(x, spec = NULL){
 list(mu = fAssets::assetsLPM(x)$mu, Sigma = fAssets::assetsLPM(x)$Sigma)
 }
 
-###===Multivariate Student t=======###
 .covStudent <- function (x, spec = NULL) {
 x.mat =as.matrix(x)
 list(mu = colMeans(x.mat), Sigma = MASS::cov.trob(x.mat)$cov)
 }
 
-###==========###
  .GoldSach <- function(x, spec = NULL){
 x.mat = x
 rho=0.95
@@ -1652,7 +1646,6 @@ Sig=cov(dat)*t/sum(w)
 list(mu =colMeans(x.mat) , Sigma =Sig)
 }
 
-###===Constant Correlation===###
  .ShrinkCC <- function (x,spec = NULL) {
 x.mat =x
 t=nrow(x.mat)
