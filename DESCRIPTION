@@ -2,7 +2,7 @@ Package: JFE
 Type: Package
 Title: A Menu-Driven GUI for Financial and Econometric Data Analysis
 Version: 1.0
-Date: 2017-11-28
+Date: 2017-11-30
 Author: Ho Tsung-wu
 Maintainer: Ho Tsung-wu <tsungwu@mail.shu.edu.tw>
 Description: Just Finance and Econometrics, JFE, is a menu-driven GUI designed to support the analysis of financial time series data. 
