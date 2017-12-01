@@ -22,13 +22,16 @@ Goldman-Sach covariance estimator with constant correlation
 
 
 \details{
-Generate a Goldman-Sach  covariance estimator portfolio optimization.
+Generate a Litterman-Winkelmann covariance estimator proposed in Goldman-Sachs Risk Management Series. In JFE package, we fix rho to be 0.95.
 }
 
 \value{
 Generate a Goldman-Sach covariance covariance estimator.
 }
 
+\references{
+Robert Litterman and Kurt Winkelmann (1998) Estimating Covariance Matrices. Risk Management Series, Gold Sachs.
+}
 
 \author{
 Ho Tsung-wu <tsungwu@mail.shu.edu.tw>

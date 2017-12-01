@@ -29,6 +29,9 @@ A wrapper for SKCOv.
 A wrapper for SKCOv.
 }
 
+\references{
+Ledoit, O. and M. Wolf, (2003) Improved estimation of the covariance matrix of returns with an application to portfolio selection.  Journal of Empirical Finance 10, 603-621.
+}
 
 \author{
 Ho Tsung-wu <tsungwu@mail.shu.edu.tw>

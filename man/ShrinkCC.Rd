@@ -29,7 +29,9 @@ Generate a shrinkage covariance estimator with constant correlation for portfoli
 Generate a shrinkage covariance estimator with constant correlation
 }
 
-
+\references{
+Ledoit, O. and M. Wolf (2004) Honey, I shrunk the sample covariance matrix. Journal of Portfolio Management 30, 110-119.
+}
 
 \author{
 Ho Tsung-wu <tsungwu@mail.shu.edu.tw>
