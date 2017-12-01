@@ -1,3 +1,8 @@
+.readme4Selection <- function() {
+cat("\n","1. Assets Selection here is basically based on Sharpe ratio inequality. The method is designed for Internaitonal Asset Selection, interested readers please refer to Bekaert and Hodrick(2009),International Financial Management,PP.466-468. We provide more performance indices based on the R package PerformanceAnalytics.","\n","2. To use this tool, you must have a multivariate time series dataset with R format, xts is most encourgaed; and the file is saved in .RData or .rda. Users may ude the dataset world20.rda located in the data directory of this package, detail is explained in the manual.","\n","3.  If the loaded data is price, then you have to pull down the menu and choose Transform Price Data, else, Load Returns Data","\n")
+
+}
+
 .getReturns4Selection <- function(){
   if ("PerformanceAnalytics" %in% (.packages())) {print("package PerformanceAnalytics is loaded")} else {
     eval(parse( text="library(PerformanceAnalytics)"))}
@@ -14,6 +19,7 @@
   #  .evalCmdChunk("summary(dat)")
   cat("Returns data is imported sucessfully","\n")
   print(tail(dat,2));print(head(dat,2))
+  cat("\n")
 }
 
 #====================================
@@ -25,25 +31,24 @@
 
   MAR=as.numeric(MAR)
   Rf=as.numeric(Rf)
+
+  if(Rb== "None"){
+    target=as.xts(apply(datx,1,mean))
+    benchTitle="bench portfolio by average"
+  } else {
+    target=datx[,Rb]
+    benchTitle=paste0("bench portfolio is ", Rb)
+  }
+
   if(removal== "None"){
     datz=dat0
   } else {
     NO=which(colnames(dat0) %in% removal)
     datz=dat0[,-c(NO)]
-
   }
 
   IDab=colnames(datz)
   dataz=na.omit(datz)
-
-
-  if(Rb== "None"){
-    target=as.xts(apply(datx,1,mean))
-  } else {
-    target=datx[,Rb]
-  }
-
-
 
   domestic=which(colnames(dataz)==home)
   homeAsset=dataz[,domestic]
@@ -61,49 +66,13 @@
     left=PerformanceAnalytics::SharpeRatio(foreign,Rf,FUN="VaR")
     right=PerformanceAnalytics::SharpeRatio(homeAsset,Rf,FUN="VaR")
   }
-  else if(index=="CVaR"){
+  else if(index=="ES"){
     left=PerformanceAnalytics::SharpeRatio(foreign,Rf,FUN="ES")
     right=PerformanceAnalytics::SharpeRatio(homeAsset,Rf,FUN="ES")
   }
-  else if(index=="AdjustedSharpeRatio"){
-    left=PerformanceAnalytics::AdjustedSharpeRatio(foreign,Rf)
-    right=PerformanceAnalytics::AdjustedSharpeRatio(homeAsset,Rf)
-  }
-  else if(index=="BurkeRatio"){
-    left=PerformanceAnalytics::BurkeRatio(foreign,Rf)
-    right=PerformanceAnalytics::BurkeRatio(homeAsset,Rf)
-  }
-
-  else if(index=="SharpeRatio.annualized"){
-    left=PerformanceAnalytics::SharpeRatio.annualized(foreign,Rf)
-    right=PerformanceAnalytics::SharpeRatio.annualized(homeAsset,Rf)
-  }
-
-  else if(index=="KellyRatio"){
-    left=PerformanceAnalytics::KellyRatio(foreign,Rf)
-    right=PerformanceAnalytics::KellyRatio(homeAsset,Rf)
-  }
-
-  else if(index=="PainRatio"){
-    left=PerformanceAnalytics::PainRatio(foreign,Rf)
-    right=PerformanceAnalytics::PainRatio(homeAsset,Rf)
-  }
-
-  else if(index=="BernardoLedoitRatio"){
-    left=PerformanceAnalytics::BernardoLedoitRatio(foreign,Rf)
-    right=PerformanceAnalytics::BernardoLedoitRatio(homeAsset,Rf)
-  }
-
-
-  else if(index=="MartinRatio"){
-    left=PerformanceAnalytics::MartinRatio(foreign,Rf)
-    right=PerformanceAnalytics::MartinRatio(homeAsset,Rf)
-  }
-
-
-  else if(index=="MeanAbsoluteDeviation"){
-    left=PerformanceAnalytics::MeanAbsoluteDeviation(foreign,Rf)
-    right=PerformanceAnalytics::MeanAbsoluteDeviation(homeAsset,Rf)
+  else {
+  left=eval(parse(text=index))(foreign,Rf)
+  right=eval(parse(text=index))(homeAsset,Rf)
   }
 
   Ineq=left-rho*right
@@ -120,26 +89,28 @@
   cat(length(Selected), "assets selected by",index, "are ", "\n")
   print(as.character(Selected))
 
-  sr1=PerformanceAnalytics::SharpeRatio(portfolioReturns,Rf,FUN="StdDev")
-  sr2=PerformanceAnalytics::SharpeRatio(portfolioReturns,Rf,FUN="VaR")
-  sr3=PerformanceAnalytics::SharpeRatio(portfolioReturns,Rf,FUN="ES")
-  cat("\n","Performance by Sharpe ratio","\n")
-  print(rbind(sr1,sr2,sr3))
-  cat("\n","Table of Annualized Returns","\n");
-  print(PerformanceAnalytics::table.AnnualizedReturns(as.xts(portfolioReturns)))
+  if (index=="StdDev"||index=="VaR"||index=="ES"){
+  Performance=PerformanceAnalytics::SharpeRatio(portfolioReturns,Rf,FUN=index)
+  cat("\n",paste("Performance by Sharpe ratio with", index,"is"),Performance ,"\n")
+  Title=paste("Performance by Sharpe ratio with", index)
+  } else {
 
-  #SR=rbind(sr1,sr2,sr3)
-  #assign("SR", SR, envir = .JFEEnv)
-  #.evalCmdChunk("print(table.Stats(portfolioReturns));cat('\n');print(table.AnnualizedReturns(portfolioReturns));cat('\n');print(SR)")
+  Performance=eval(parse(text=index))(portfolioReturns,Rf)
+  print(paste("Performance by",  index)); print(Performance)
+  cat("\n",paste("Performance by",  index,"is"),Performance ,"\n")
+  Title=paste("Performance by ", index)
+}
+    cat("\n","Table of Annualized Returns is","\n")
+    print(PerformanceAnalytics::table.AnnualizedReturns(as.xts(portfolioReturns)))
 
+  ###===== Plotting
   bench=timeSeries::as.timeSeries(target[(T0+1):nrow(datx)])
   Y=timeSeries::as.timeSeries(portfolioReturns)
-  colnames(Y)="Portfolio"
+  colnames(Y)=Title
   MIN=min(c(as.numeric(cumsum(Y)),as.numeric(cumsum(bench))))*0.98
   MAX=max(c(as.numeric(cumsum(Y)),as.numeric(cumsum(bench))))*1.15
 
-  dev.new();plot.new();fBasics::cumulatedPlot(Y,ylab="",col="red",ylim=100*exp(c(MIN,MAX)))
-  abline(h=100);lines(100*exp(timeSeries::colCumsums(bench)),col="blue");graphics::legend("topleft", c("Portfolio","Bench"), text.col = c("red","blue"),bty="n")
+  dev.new();plot.new();fBasics::cumulatedPlot(Y,ylab="",col="red",ylim=100*exp(c(MIN,MAX)));abline(h=100);lines(100*exp(timeSeries::colCumsums(bench)),col="blue");graphics::legend("topleft", c("Portfolio",benchTitle), text.col = c("red","blue"),bty="n")
 
   return(list(HomeID=as.character(HomeID),Selected=as.character(Selected)))
 }
@@ -192,7 +163,7 @@ tkgrid(freqFrame,sticky="w")
 
 
 selectionFrame <- tkframe(rightFrame)
-.radioButtons(top,name="selection", buttons=c("StdDev", "VaR", "CVaR","AdjustedSharpeRatio","SharpeRatio.annualized", "BurkeRatio","KellyRatio","PainRatio","BernardoLedoitRatio","MartinRatio","MeanAbsoluteDeviation"), values=c("StdDev", "VaR", "CVaR","AdjustedSharpeRatio", "SharpeRatio.annualized","BurkeRatio","KellyRatio","PainRatio","BernardoLedoitRatio","MartinRatio","MeanAbsoluteDeviation"), labels=c("Sharpe By Std Dev.", "Sharpe By VaR","Sharpe By CVaR","Adjusted Sharpe", "Annualized Sharpe","Burke Ratio", "Kelly Ratio","Pain Ratio","Bernardo-Ledoit","Martin Ratio","Mean Absolute Deviation"), title="Performance Index")
+.radioButtons(top,name="selection", buttons=c("StdDev", "VaR", "ES","AdjustedSharpeRatio","SharpeRatio.annualized", "BurkeRatio","KellyRatio","PainRatio","BernardoLedoitRatio","MartinRatio","MeanAbsoluteDeviation"), values=c("StdDev", "VaR", "ES","AdjustedSharpeRatio", "SharpeRatio.annualized","BurkeRatio","KellyRatio","PainRatio","BernardoLedoitRatio","MartinRatio","MeanAbsoluteDeviation"), labels=c("Sharpe By Std Dev.", "Sharpe By VaR","Sharpe By ES(CVaR)","Adjusted Sharpe", "Annualized Sharpe","Burke Ratio", "Kelly Ratio","Pain Ratio","Bernardo-Ledoit","Martin Ratio","Mean Absolute Deviation"), title="Performance Index")
 selectionVariable <- selectionVariable
 tkgrid(selectionFrame,sticky="w")
 

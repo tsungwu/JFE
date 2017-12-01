@@ -4,7 +4,7 @@ JFE <- function ()
 Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
 
 window <-tktoplevel(borderwidth=10)
-tkwm.title(window, "Just Finance and Econometrics")
+tkwm.title(window, "JFE simplies data analytics for Just Finance and Econometrics")
 tkwm.geometry(window, "+150+150")
 
 menuBar <- tkmenu(window)
@@ -59,10 +59,14 @@ tkadd(returnsMenu, "command", label="Dependency plots", command =.acfPlots)
 tkadd(returnsMenu, "command", label="Four QQ plots", command =.QQPlot)
 tkadd(returnsMenu, "command", label="NIG triangle", command =.nigTriangle)
 tkadd(returnsMenu, "command", label="Box plot", command =.ReturnsBoxPlots)
+tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn)
 
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)
 tkadd(menuBar,"cascade",label="Assets Selection", menu=assetSelectionMenu)
+
+tkadd(assetSelectionMenu,"command", label = "Read Me",command = .readme4Selection)
+
 tkadd(assetSelectionMenu, "command", label="Transform Price Data",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
@@ -83,6 +87,7 @@ tkadd(assetSelectionMenu, "command", label= "Assets Selection by Performance Ind
 #5.Backtesting
 backtestMenu <- tkmenu(menuBar)
 tkadd(menuBar,"cascade",label="Portfolio Backtesting", menu=backtestMenu)
+tkadd(backtestMenu,"command", label = "Read Me",command = .readme4backtesting)
 tkadd(backtestMenu, "command", label="Transform Price Data",command = function() {
   dir_name <- tkchooseDirectory()
   if(nchar(dir_name <- as.character(dir_name)))
@@ -99,7 +104,7 @@ tkadd(backtestMenu,"command", label = "Change dataset in this Dir",command = .ge
 
 tkadd(backtestMenu, "command", label= "Backtesting", command =.backtestingMenu)
 
-tkadd(backtestMenu, "command", label= "Run iClick", command =.iClickBacktesting_Menu)
+tkadd(backtestMenu, "command", label= "Backtesting All in One", command =.iClickBacktesting_Menu)
 
 # 6. High Frequency
 HFMenu <- tkmenu(menuBar)
