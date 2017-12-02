@@ -1,7 +1,7 @@
 .JFEEnv <- new.env()
 JFE <- function ()
   {
-Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
+
 
 window <-tktoplevel(borderwidth=10)
 tkwm.title(window, "JFE simplies data analytics for Just Finance and Econometrics")
@@ -64,22 +64,17 @@ tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickRe
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)
 tkadd(menuBar,"cascade",label="Assets Selection", menu=assetSelectionMenu)
-
 tkadd(assetSelectionMenu,"command", label = "Read Me",command = .readme4Selection)
-
 tkadd(assetSelectionMenu, "command", label="Transform Price Data",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
      .getReturns4Selection()})
-
 tkadd(assetSelectionMenu,"command", label = "Load Returns Data",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
      setwd(dir_name)
      .getRawData()})
-
-
 tkadd(assetSelectionMenu,"command", label = "Change dataset in this Dir",command = .getReturns4Selection)
 tkadd(assetSelectionMenu, "command", label= "Assets Selection by Performance Index", command =.sharpeIneqMenu)
 
