@@ -6,7 +6,9 @@
 A covariance estimator based on Baysian shrinkage estimator
 }
 
+
 \encoding{latin1}
+
 
 \description{
 A covariance estimator based on a Baysian shrinkage estimator.

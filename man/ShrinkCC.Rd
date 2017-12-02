@@ -3,30 +3,32 @@
 \alias{ShrinkCC}
 
 \title{
-Shrinkage covariance estimator with constant correlation for portfolio optimization.
+Ledoit-Wolf Shrinkage covariance estimator with constant correlation for portfolio optimization
 }
 
 \encoding{latin1}
 
+
 \description{
-Shrinkage covariance estimator with constant correlation
+Ledoit-Wolf Shrinkage covariance estimator with constant correlation
 }
 
 \usage{ShrinkCC(x,spec = NULL)
 }
+
 \arguments{
-  \item{x}{Time series object}
-  \item{spec}{NULL}
+ \item{x}{Time series object}
+ \item{spec}{NULL}
 
   }
 
 
 \details{
-Generate a shrinkage covariance estimator with constant correlation for portfolio optimization.
+Generate a Ledoit-Wolf shrinkage covariance estimator with constant correlation for portfolio optimization.
 }
 
 \value{
-Generate a shrinkage covariance estimator with constant correlation
+Generate a Ledoit-Wolf shrinkage covariance estimator with constant correlation
 }
 
 \references{

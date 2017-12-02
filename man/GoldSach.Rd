@@ -6,7 +6,9 @@
 Goldman-Sach covariance estimator for portfolio optimization.
 }
 
+
 \encoding{latin1}
+
 
 \description{
 Goldman-Sach covariance estimator with constant correlation

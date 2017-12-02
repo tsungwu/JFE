@@ -6,7 +6,9 @@
 Display the JFE User Interface
 }
 
+
 \encoding{latin1}
+
 
 \description{
 Start the JFE GUI (graphical user interface)

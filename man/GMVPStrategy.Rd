@@ -8,6 +8,8 @@ A wrapper of GMVP strategy for backtesting a fPortfolio class
 
 \encoding{latin1}
 
+
+
 \description{
 A wrapper of GMVP strategy for backtesting a fPortfolio class.
 }

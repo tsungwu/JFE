@@ -2,7 +2,7 @@
 \alias{IBM}
 \docType{data}
 \title{
-Daily Price Data of IBM
+Daily Price Data of IBM, OHLC
 }
 
 \encoding{latin1}
@@ -25,8 +25,10 @@ Daily price data of IBM, 2007/4/24~2017/4/21
 
 
 \details{
-Daily stock price data of IBM. Transform this dataset into IBM.RData and use it as an example dataset for Price and Returns Analytics. The code easy: data(IBM);save(IBM,file="IBM.RData")
+Daily stock price data of IBM. Directly copy the data from data directory of this package under R)
 }
 \source{
 Yahoo finance.
 }
+
+\keyword{datasets}
