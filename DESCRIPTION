@@ -1,13 +1,14 @@
 Package: JFE
 Type: Package
-Title: A Menu-Driven GUI for Financial and Econometric Data Analysis
+Title: A Menu-Driven GUI for Econometric Analysis of Financial Data 
 Version: 1.0
 Date: 2017-12-01
 Author: Ho Tsung-wu
 Maintainer: Ho Tsung-wu <tsungwu@mail.shu.edu.tw>
-Description: Just Finance and Econometrics, JFE, is a menu-driven GUI designed as a toobox to support the decision analysis of financial time series data. JFE provides both international assets selection and portfolio backtesting, menu pulled down offers a simple readme as  HELP.
+Description: JFE goes with Just Finance and Econometrics. It is a menu-driven GUI designed as a toolbox to support the decision analysis of financial time series data. JFE provides both international assets selection and portfolio backtesting.
 License: GPL (>= 2)
-URL:  https://github.com/tsungwu/JFE, http://www.iclick-r.idv.tw/workshop/ResourcesForR/R_packageDev/packageDevelopment.htm
+Additional_repositories:  https://github.com/tsungwu/JFE
+URL:http://iclick-r.idv.tw/R_PkgDev/main.htm
 LazyData: TRUE
 LazyLoad: yes
 Depends:
@@ -20,7 +21,8 @@ Imports:
     MASS,
     PerformanceAnalytics,
     quantmod,
-    tcltk,tcltk2,
+    tcltk,
+    tcltk2,
     timeDate,
     timeSeries
     
