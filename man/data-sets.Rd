@@ -10,6 +10,8 @@
 
 \title{Assets Data Sets}
 
+%\encoding{latin1}
+\encoding{UTF-8}
 
 \description{
 

@@ -1,7 +1,6 @@
 \name{Portfolio-covFunctions}
 
 
-\encoding{latin1}
 
 \alias{covLedoit}
 \alias{covStudent}
@@ -13,6 +12,8 @@
 
 \title{User defined functions to perform portfolio backtesting}
 
+%\encoding{latin1}
+\encoding{UTF-8}
 
 \description{
 
