@@ -59,7 +59,7 @@ tkadd(returnsMenu, "command", label="Dependency plots", command =.acfPlots)
 tkadd(returnsMenu, "command", label="Four QQ plots", command =.QQPlot)
 tkadd(returnsMenu, "command", label="NIG triangle", command =.nigTriangle)
 tkadd(returnsMenu, "command", label="Box plot", command =.ReturnsBoxPlots)
-tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn)
+#tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn)
 
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)
