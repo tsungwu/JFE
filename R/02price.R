@@ -14,6 +14,8 @@ importedFileName=last(unlist(strsplit(name,"/")))
 assign("importedFileName", importedFileName, envir = .JFEEnv)
 print(paste("You are loading ",importedFileName,sep=" "))
 print(head(dat,3))
+  Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
+#.evalCmdChunk(head(dat))
 }
 
 
@@ -218,7 +220,7 @@ tkfocus(top)
   rightFrame <- tkframe(top)
 
   freqFrame <- tkframe(rightFrame)
-.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month","Quarter"), values=c("daily", "weekly", "monthly", "quarterly"), labels=c("Use daily data", "Use weekly freq", "Use monthly freq","Use quarterly freq"), title="Frequency Conversion")
+.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month","Quarter"), values=c("daily", "weekly", "monthly", "quarterly"), labels=c("Daily data(Default)", "Weekly freq", "Monthly freq","Quarterly freq"), title="Frequency Conversion")
   freqVariable<-freqVariable
   tkgrid(freqFrame, sticky="w")
   tkgrid.configure(freqFrame, sticky="nw")
@@ -282,13 +284,13 @@ tkfocus(top)
 
 
 
-.iClickPrice <- function (dataz){
-assetPrice=dataz
-print(head(assetPrice))
-iClick::iClick.VisAssetPrice(assetPrice)
-}
+#.iClickPrice <- function (dataz){
+#assetPrice=dataz
+#print(head(assetPrice))
+#iClick::iClick.VisAssetPrice(assetPrice)
+#}
 
-.iClickPrice_Menu <- function() {
+.iClickPrice <- function() {
 Price=get("Price",envir = .JFEEnv)
 top <- tktoplevel(borderwidth=10)
 tkwm.title(top, "Execute iClick for asset price")
@@ -301,10 +303,10 @@ onOK <- function(){
    tkmessageBox(message = "You must select a variable.", icon = "error", type = "ok")
     return()
       }
-Dates=as.character(time(Price))
-infile=data.frame(Dates,unclass(Price[,x]))
 
-.iClickPrice(infile)
+#infile=Price[,x]
+#.iClickPrice(infile)
+iClick::iClick.VisAssetPrice(Price[,x])
 
 }
   tkgrid(.getFrame(xBox), sticky="nw")

@@ -23,7 +23,7 @@ tkadd(fileMenu, "command", label = "Save workspace as...",
 
 #2. Price
 priceMenu <- tkmenu(menuBar)
-tkadd(menuBar,"cascade",label="Price Analythics", menu=priceMenu)
+tkadd(menuBar,"cascade",label="Price Analytics", menu=priceMenu)
 tkadd(priceMenu,"command", label = "Load Price Data",command = function() {
         dir_name <- tkchooseDirectory()
         if(nchar(dir_name <- as.character(dir_name)))
@@ -35,7 +35,7 @@ tkadd(priceMenu, "command", label="Time series plot", command =.pricePlot)
 tkadd(priceMenu, "command", label="ACF/PACF plot", command =.PriceAcfPlots)
 tkadd(priceMenu, "command", label="Box plot", command =.PriceBoxPlots)
 tkadd(priceMenu, "command", label="Technical charting(For OHLC only)", command =.priceCharting)
-tkadd(priceMenu, "command", label="Advanced Visualization", command =.iClickPrice_Menu)
+tkadd(priceMenu, "command", label="iClick Visualization", command =.iClickPrice)
 
 #3. Returns
 returnsMenu <- tkmenu(menuBar)
@@ -59,7 +59,7 @@ tkadd(returnsMenu, "command", label="Dependency plots", command =.acfPlots)
 tkadd(returnsMenu, "command", label="Four QQ plots", command =.QQPlot)
 tkadd(returnsMenu, "command", label="NIG triangle", command =.nigTriangle)
 tkadd(returnsMenu, "command", label="Box plot", command =.ReturnsBoxPlots)
-#tkadd(returnsMenu, "command", label="Advanced Visualization", command =.iClickReturn)
+tkadd(returnsMenu, "command", label="iClick Visualization", command =.iClickReturn)
 
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)
@@ -99,7 +99,7 @@ tkadd(backtestMenu,"command", label = "Change dataset in this Dir",command = .ge
 
 tkadd(backtestMenu, "command", label= "Backtesting", command =.backtestingMenu)
 
-tkadd(backtestMenu, "command", label= "Backtesting All in One", command =.iClickBacktesting_Menu)
+tkadd(backtestMenu, "command", label= "iClick All-in-One", command =.iClickBacktesting_Menu)
 
 # 6. High Frequency
 HFMenu <- tkmenu(menuBar)
