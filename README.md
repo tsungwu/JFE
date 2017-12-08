@@ -4,7 +4,7 @@ Check http://www.iclick-r.idv.tw/R_PkgDev/main.htm for more information.
 
 Price Analytics
 1. Price Analytics loads price data from .RData.  Technical charting needs OHLC data
-2. To use this function, you must have a time series dataset with R format, xts is most encourgaed; and the file is saved in .RData or .rda. Users may download the dataset IBM.RData in above web page. 
+2. To use this function, you must have a time series dataset with R format, xts is most encouraged; and the file is saved in .RData or .rda. Users may download the dataset IBM.RData in above web page. 
 
 Assets Selection
 1. Assets Selection here is basically based on, for example, Sharpe ratio inequality. The method is designed for Internaitonal Asset Selection, interested reader please refer to Bekaert and Hodrick(2009,International Financial Management,PP.466-468). We provide more performance indices based on the R package PerformanceAnalytics.
