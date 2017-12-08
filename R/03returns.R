@@ -332,15 +332,7 @@ tkfocus(top)
 
 
 
-
-
-.iClickReturn <- function(dataz){
-Returns=dataz
-#print(head(Returns))
-iClick::iClick.VisOneReturns(Returns)
-}
-
-.iClickReturn_Menu <- function() {
+.iClickReturn <- function() {
 
 retDF=get("retDF",envir = .JFEEnv)
 
@@ -355,10 +347,8 @@ onOK <- function(){
    tkmessageBox(message = "You must select a variable.", icon = "error", type = "ok")
     return()
       }
-Dates=as.character(time(retDF[,x]))
-infile=na.omit(data.frame(Dates=Dates,ret=as.numeric(retDF[,x])))
-print(head(infile))
-.iClickReturn(infile)
+
+iClick::iClick.VisOneReturns(na.omit(retDF[,x]))
 
 }
   tkgrid(.getFrame(xBox), sticky="nw")
