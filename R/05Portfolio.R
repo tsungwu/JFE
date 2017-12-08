@@ -89,7 +89,7 @@ Eq=paste(names(newData)[1], paste(names(newData)[-1], collapse= "+"),sep="~")
 
 .backtestingMenu <- function(){
   retAS=get("retAS",envir = .JFEEnv)
-  top <- tktoplevel(borderwidth=45)
+  top <- tktoplevel(borderwidth=10)
   tkwm.title(top, "Back testing")
 
   xBox <- .variableListBox(top,c("None",colnames(retAS)),title="Pick 1 bench asset")

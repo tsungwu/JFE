@@ -122,7 +122,7 @@ print(head(datx))
 
 .sharpeIneqMenu <- function(){
   retAS=get("retAS",envir = .JFEEnv)
-  top <- tktoplevel(borderwidth=45)
+  top <- tktoplevel(borderwidth=10)
   tkwm.title(top, "Asset Selection by Sharpe inequality")
 
   xBox <- .variableListBox(top, colnames(retAS), title="Pick home asset")
@@ -157,14 +157,13 @@ print(head(datx))
   }
 
   tkgrid(.getFrame(xBox),.getFrame(xBoxNo), .getFrame(xBoxRb), sticky="n")
-  #tkgrid(.getFrame(xBoxNo), sticky="w")
 
    rightFrame <- tkframe(top)
 
 freqFrame <- tkframe(rightFrame)
 .radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month","Quarter"), values=c("daily", "weekly", "monthly", "quarterly"), labels=c("Daily data(Default)", "Weekly freq", "Monthly freq","Quarterly freq"), title="Frequency Conversion")
 freqVariable <- freqVariable
-tkgrid(freqFrame,sticky="w")
+tkgrid(freqFrame,rightFrame,sticky="w")
 
 
 selectionFrame <- tkframe(rightFrame)
