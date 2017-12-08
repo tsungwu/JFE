@@ -189,7 +189,7 @@ tkfocus(top)
 
   onOK <- function(){
 
-    if (ncol(Price) == 0 || !is.OHLCV(Price)|| !is.OHLC(Price)){
+    if (ncol(Price) == 0 || !quantmod::is.OHLCV(Price)|| !quantmod::is.OHLC(Price)){
       tkmessageBox(message = "You must import a OHLC dataset.", icon = "error", type = "ok")
       return()
     }
@@ -208,12 +208,12 @@ tkfocus(top)
     if (addType=="addVo()") {
       dev.new()
       print(paste("You are charting",importedFileName,sep=" "))
-      quantmod::chartSeries(x,name=NAMES,theme=chartTheme(themeCOLOR))}
+      quantmod::chartSeries(x,name=NAMES,theme=quantmod::chartTheme(themeCOLOR))}
     else {
       dev.new()
       ADD=paste("addVo();",addType,sep="")
       print(paste("You are charting",importedFileName,sep=" "))
-      quantmod::chartSeries(x,name=NAMES,TA=ADD,theme=chartTheme(themeCOLOR))
+      quantmod::chartSeries(x,name=NAMES,TA=ADD,theme=quantmod::chartTheme(themeCOLOR))
     }
 
   }
@@ -251,7 +251,7 @@ values2=c("addSMI()","addWPR()","addSMA()","addEMA()","addWMA()", "addDEMA()","a
   tkgrid(addFrame, sticky="w")
   tkgrid.configure(addFrame, sticky="nw")
 
- 
+
  tkgrid(freqFrame,addFrame,themeColFrame,rightFrame,sticky="w")
 
 
@@ -263,7 +263,7 @@ values2=c("addSMI()","addWPR()","addSMA()","addEMA()","addWMA()", "addDEMA()","a
   tkgrid(startFrame, sticky="w")
   tkgrid.configure(startField, sticky="nw")
 
-#  endFrame by entry 
+#  endFrame by entry
   endFrame <- tkframe(rightFrame)
   endVariable <- tclVar(as.character(as.Date(time(Price)[nrow(Price)])))
   endField <- tkentry(endFrame, width="12", textvariable=endVariable)
