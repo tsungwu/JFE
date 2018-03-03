@@ -60,6 +60,8 @@ tkadd(returnsMenu, "command", label="Four QQ plots", command =.QQPlot)
 tkadd(returnsMenu, "command", label="NIG triangle", command =.nigTriangle)
 tkadd(returnsMenu, "command", label="Box plot", command =.ReturnsBoxPlots)
 tkadd(returnsMenu, "command", label="iClick Visualization", command =.iClickReturn)
+tkadd(returnsMenu, "command", label="GARCH", command =.garchMenu)
+
 
 #4. Assets selections
 assetSelectionMenu <- tkmenu(menuBar)
