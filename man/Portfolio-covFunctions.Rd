@@ -12,7 +12,6 @@
 
 \title{User defined functions to perform portfolio backtesting}
 
-%\encoding{latin1}
 \encoding{UTF-8}
 
 \description{
