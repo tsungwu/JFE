@@ -1,6 +1,6 @@
 # JFE
 R Package: Just Finance and Econometrics
-Check http://web.ntnu.edu.tw/~tsungwu/R_PkgDev/main.htm for more information. Version 1.3 is the newest one, which includes GARCH in Returns Anaytics.
+Check http://web.ntnu.edu.tw/~tsungwu/R_DevOps/R_DevOps.htm for more information. Version 1.3 is the newest one, which includes GARCH in Returns Anaytics.
 
 <Price Analytics>
 1. Price Analytics loads price data from .RData.  Technical charting needs OHLC data
