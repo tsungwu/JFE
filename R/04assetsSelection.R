@@ -12,7 +12,7 @@ cat("\n","1. Assets Selection here is basically based on Sharpe ratio inequality
     return(data.frame())
   temp=print(load(name))
   dataz=eval(parse(text=temp))
-  dat=timeSeries::returns(timeSeries::as.timeSeries(dataz))
+  dat=diff(log(dataz))
   dat=xts::as.xts(dat)
   assign("retAS", dat, envir = .JFEEnv)
   #  .evalCmdChunk("summary(dat)")
@@ -22,14 +22,9 @@ cat("\n","1. Assets Selection here is basically based on Sharpe ratio inequality
 }
 
 #====================================
-.sharpeIneq <- function(datx0, home,removal,index,Rf=0,MAR=0,Rb,splitDate,FREQtype){
+.sharpeIneq <- function(datx, home,removal,index,Rf=0,MAR=0,Rb,splitDate){
 
-if (FREQtype != "daily") {
-y0=timeSeries::as.timeSeries(datx0)
-datx=xts::as.xts(timeSeries::as.timeSeries(y0,as.Date(index(datx0))))} else {datx=datx0}
-
-print(head(datx))
-  T0=as.integer(nrow(datx)*as.numeric(splitDate))
+  T0=which(as.character(time(datx))==as.character(splitDate))
 
   dat0=datx[1:T0,]
 
@@ -95,14 +90,14 @@ print(head(datx))
 
   if (index=="StdDev"||index=="VaR"||index=="ES"){
   Performance=PerformanceAnalytics::SharpeRatio(portfolioReturns,Rf,FUN=index)
-  cat("\n",FREQtype,paste(" Performance by Sharpe ratio with", index,"is"),Performance ,"\n")
-  Title=paste(FREQtype," Performance by Sharpe ratio with", index)
+  cat("\n",paste("Performance by Sharpe ratio with", index,"is"),Performance ,"\n")
+  Title=paste("Performance by Sharpe ratio with", index)
   } else {
 
   Performance=eval(parse(text=index))(portfolioReturns,Rf)
-  print(paste(FREQtype," Performance by",  index)); print(Performance)
-  cat("\n",paste(FREQtype," Performance by",  index,"is"),Performance ,"\n")
-  Title=paste(FREQtype," Performance by ", index)
+  print(paste("Performance by",  index)); print(Performance)
+  cat("\n",paste("Performance by",  index,"is"),Performance ,"\n")
+  Title=paste("Performance by ", index)
 }
     cat("\n","Table of Annualized Returns is","\n")
     print(PerformanceAnalytics::table.AnnualizedReturns(as.xts(portfolioReturns)))
@@ -122,7 +117,7 @@ print(head(datx))
 
 .sharpeIneqMenu <- function(){
   retAS=get("retAS",envir = .JFEEnv)
-  top <- tktoplevel(borderwidth=10)
+  top <- tktoplevel(borderwidth=45)
   tkwm.title(top, "Asset Selection by Sharpe inequality")
 
   xBox <- .variableListBox(top, colnames(retAS), title="Pick home asset")
@@ -148,22 +143,22 @@ print(head(datx))
     splitDate <- tclvalue(splitVariable )
     if (FREQtype=="daily"){
       x=retAS } else {
-#        transForm=paste("timeSeries::",FREQtype,"(retAS)",sep="")
-    transForm=paste0("xts::to.",FREQtype,"(retAS,OHLC = FALSE)")
+        transForm=paste("timeSeries::",FREQtype,"(retAS)",sep="")
         x=eval(parse(text=transForm))
       }
 
-    output=.sharpeIneq(x,home,removal,index,Rf,MAR,Rb,splitDate,FREQtype)
+    output=.sharpeIneq(x,home,removal,index,Rf,MAR,Rb,splitDate)
   }
 
   tkgrid(.getFrame(xBox),.getFrame(xBoxNo), .getFrame(xBoxRb), sticky="n")
+  #tkgrid(.getFrame(xBoxNo), sticky="w")
 
    rightFrame <- tkframe(top)
 
 freqFrame <- tkframe(rightFrame)
-.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month","Quarter"), values=c("daily", "weekly", "monthly", "quarterly"), labels=c("Daily data(Default)", "Weekly freq", "Monthly freq","Quarterly freq"), title="Frequency Conversion")
+.radioButtons(top,name="freq", buttons=c("Daily", "Week", "Month"), values=c("daily", "daily2weekly", "daily2monthly"), labels=c("Default daily data", "Use weekly freq", "Use monthly freq"), title="Frequency Conversion")
 freqVariable <- freqVariable
-tkgrid(freqFrame,rightFrame,sticky="w")
+tkgrid(freqFrame,sticky="w")
 
 
 selectionFrame <- tkframe(rightFrame)
@@ -191,10 +186,11 @@ tkgrid(selectionFrame, rightFrame,sticky="w")
 
   ## Sample Split frame
 
+  cut=as.integer(length(time(retAS))*0.7)
   splitFrame <- tkframe(rightFrame)
-  splitVariable <- tclVar("0.7")
-  splitField <- tkentry(splitFrame, width="6", textvariable=splitVariable)
-  tkgrid(tklabel(splitFrame, text="Training Percentage = ", fg="blue"), splitField, sticky="w")
+  splitVariable <- tclVar(as.character(as.Date(time(retAS)[cut])))
+  splitField <- tkentry(splitFrame, width="12", textvariable=splitVariable)
+  tkgrid(tklabel(splitFrame, text="Cutting date = ", fg="blue"), splitField, sticky="w")
   tkgrid(splitFrame, sticky="w")
 
   #tkgrid.configure(splitField, sticky="nw")
