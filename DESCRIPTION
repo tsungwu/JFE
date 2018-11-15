@@ -1,11 +1,11 @@
 Package: JFE
 Type: Package
-Title: A Menu-Driven GUI for Analyzing and Modelling Data of Just Finance and Econometrics 
-Version: 1.2
-Date: 2018-03-02
+Title: A Menu-Driven GUI for Data Analysis of Just Finance and Econometrics 
+Version: 1.3
+Date: 2018-11-12
 Author: Ho Tsung-wu
-Maintainer: Ho Tsung-wu <tsungwu@mail.shu.edu.tw>
-Description: The Just Finance and Econometrics ('JFE') provides a 'tcltk' based interface to global assets selection and portfolio optimization. 'JFE' aims to provide a simple GUI that allows a user to quickly load data from a .RData (.rda) file, explore the data and evaluate financial models. Invoked as JFE(), 'JFE' exports a number of utility functions for visualizing assets price (e.g. technical charting) and returns, selecting assets by performance index (based on the package 'PerformanceAnalytics') and backtesting specific portfolio profiles (based on the package 'fPortfolio').
+Maintainer: Ho Tsung-wu <tsungwu@ntnu.edu.tw>
+Description: Support the decision analysis of international assets selection and portfolio backtesting.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: yes
@@ -17,14 +17,9 @@ Imports:
     fBasics,
     iClick,
     MASS,
-    methods,
     PerformanceAnalytics,
     quantmod,
-    rugarch,
     tcltk,
     tcltk2,
     timeDate,
-    timeSeries,
-    zoo
-
-    
+    timeSeries
