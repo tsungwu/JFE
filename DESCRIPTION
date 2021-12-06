@@ -1,25 +1,38 @@
 Package: JFE
 Type: Package
-Title: A Menu-Driven GUI for Data Analysis of Just Finance and Econometrics 
-Version: 1.3
-Date: 2018-11-12
+Title: Tools and GUI for Analyzing Time Series Data of Just Finance and Econometrics 
+Version: 2.5.2
+Date: 2021-12-05
 Author: Ho Tsung-wu
 Maintainer: Ho Tsung-wu <tsungwu@ntnu.edu.tw>
-Description: Support the decision analysis of international assets selection and portfolio backtesting.
+Description: Support the analysis of financial and econometric time series, including recursive forecasts for machine learning.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: yes
 Depends:
-    R (>= 2.10),fPortfolio,xts
+    R (>= 3.5),xts,fPortfolio
 Imports:
-    BurStFin,
-    fAssets,
-    fBasics,
-    iClick,
-    MASS,
-    PerformanceAnalytics,
-    quantmod,
+    caret,
+    magrittr,
     tcltk,
     tcltk2,
+    zoo
+Suggests:
+    BurStFin,
+    data.table,
+    DescTools,
+    fAssets,
+    fBasics,
+    forecast,
+    FRAPO,
+    h2o,
+    iClick,
+    keras,
+    MASS,
+    quantmod,
+    rugarch,
+    tensorflow,
+    tibble,
     timeDate,
-    timeSeries
+    timeSeries,
+    timetk,
