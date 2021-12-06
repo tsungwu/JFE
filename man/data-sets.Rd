@@ -3,37 +3,32 @@
 
 \alias{dataSets}
 
-\alias{DJ30}
-\alias{IBM}
-\alias{world20}
+\alias{assetReturns}
 
+\alias{macrodata}
 
 \title{Assets Data Sets}
 
-%\encoding{latin1}
 \encoding{UTF-8}
 
 \description{
 
-    Example data sets.
+assetReturns contains DJ component stocks returns data. macrodata contains US unemployment(unrate) and year-to-year changes in three regional business cycle indices (OED, NAFTA, and G7).
 
 }
 
 
 \usage{
-DJ30
-IBM
-world20
+data(assetReturns)
+data(macrodata)
+
 }
 
-
-%\details{
-%}
 
 
 \value{
 
-    an object of class \code{"timeSeries"} or \code{"xts"}.
+    assetReturns is a time series object of package \code{"xts"}; the others are time series objects of package \code{"timeSeries"}.
 
 }
 
