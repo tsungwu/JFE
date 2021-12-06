@@ -1,8 +1,7 @@
-.readme4backtesting <- function() {
-cat("\n","1. Portfolio Backtesting here is basically based on R package fPortfolio.","\n","The method is designed for portfolio optimization, JFE provides more covariance estimators and GMVP  strategy for backtesting. JFE offers a comprehensive computation(Backtesting All in One) for 6 covariance estimators combined with 2 strategies, which is a little bit time-consuming, 3-min for DJ30 dataset","\n","2. To use this function, you must have a multivariate time series dataset with R format, xts is most encourgaed; and the file is saved in .RData or .rda. Users may use the dataset DJ30.rda located in the data directory of this package, detail is explained in the manual.","\n","3.  If the loaded data is price, then you have to pull down the menu and choose Transform Price Data, else, Load Returns Data","\n","4. The Next-Month Advice is the output bottom is the assets weights suggestion computed by backtesting for the next period from the end of data. The rolling length is 1 month and estimation is 1 year, which are not allowed to change so far","\n")
-}
-
 .getReturns4backtesting <- function() {
+  if ("fPortfolio" %in% (.packages())) {print("package fPortfolio is loaded")} else {
+    eval(parse(text="library(fPortfolio)"))}
+
   name <- tclvalue(tkgetOpenFile(
     filetypes = "{ {RData Files} {.RData} } { {All Files} * }"))
   if (name == "")
@@ -17,10 +16,30 @@ cat("\n","1. Portfolio Backtesting here is basically based on R package fPortfol
   Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
 }
 
+.getRawData4backtesting <- function() {
+
+  if ("fPortfolio" %in% (.packages())) {print("package fPortfolio is loaded")} else {
+    eval(parse(text="library(fPortfolio)"))}
 
 
+  name <- tclvalue(tkgetOpenFile(
 
-.backtesting <- function(dataset, assetsRM, bench, Type="MV",Strategy="tangencyStrategy",Cov="covEstimator",Rf=0,lambda,Constraint){
+    filetypes = "{ {RData Files} {.RData}  {.rda}} { {All Files} * }"))
+  if (name == "")
+    return(data.frame())
+  temp=print(load(name))
+  dat=eval(parse(text=temp))
+  assign("retAS", dat, envir = .JFEEnv)
+
+  importedFileName=last(unlist(strsplit(name,"/")))
+  assign("importedFileName", importedFileName, envir = .JFEEnv)
+  print(paste("You are loading ",importedFileName,sep=" "))
+  print(tail(dat,2));print(head(dat,2))
+  cat("\n")
+}
+
+
+.backtesting <- function(dataset, assetsRM, bench, Type,Strategy,COV,Rf=0,lambda,Constraint){
 
   if (assetsRM=="None") {
     dat=dataset } else {
@@ -39,8 +58,8 @@ cat("\n","1. Portfolio Backtesting here is basically based on R package fPortfol
 
   mySpec = portfolioSpec()
 
-  setType(mySpec)=Type
-  setEstimator(mySpec)=Cov
+  suppressMessages(setType(mySpec) <- Type)
+  setEstimator(mySpec)=COV
   setRiskFreeRate(mySpec) <- as.numeric(Rf)
 
   if (Constraint=="Short") {
@@ -65,7 +84,7 @@ Eq=paste(names(newData)[1], paste(names(newData)[-1], collapse= "+"),sep="~")
   SmoothPort = portfolioSmoothing(object=myBacktest, trace = FALSE)
 
   smoothWeights = round(100*SmoothPort$smoothWeights,2)
-  dev.new();plot.new();backtestPlot(SmoothPort, cex = 0.6, font = 1, family = "mono", which="all")
+  dev.new();backtestPlot(SmoothPort, cex = 0.6, font = 1, family = "mono", which="all")
   netPerformance(SmoothPort)
   print(SmoothPort$stats)
 
@@ -121,7 +140,7 @@ Eq=paste(names(newData)[1], paste(names(newData)[-1], collapse= "+"),sep="~")
     rightFrame <- tkframe(top)
 #====  Strategy Frame
 StrategyFrame <- tkframe(rightFrame)
-.radioButtons(top,name="Strategy", buttons=c("Tangency", "GMVP"), values=c("tangencyStrategy", "GMVPStrategy"), labels=c("Tangency", "GMVP"), title="Select Portfolio Strategy")
+.radioButtons(top,name="Strategy", buttons=c("Tangency", "GMVP"), values=c("tangencyStrategy", ".GMVPStrategy"), labels=c("Tangency", "GMVP"), title="Select Portfolio Strategy")
 StrategyVariable <- StrategyVariable
 tkgrid(StrategyFrame,sticky="w")
 
@@ -139,7 +158,7 @@ tkgrid(ConstraintFrame,sticky="w")
 
 #====Covariance Frame
 CovFrame <- tkframe(rightFrame)
-.radioButtons(top,name="Cov", buttons=c("covEstimator", ".covLedoit",".covstudent"), values=c("covEstimator", ".covLedoit",".covstudent"), labels=c("Sample Covariance", "LedoitWolf Shrinkage","Multivariate Student t"), title="Select Correlation Estimator")
+.radioButtons(top,name="Cov", buttons=c("COV", "LedoitWolf","Student","Spearman","Shrinkage","OGK","SteinBayesian"), values=c("covEstimator",".ledoitWolfEstimator",".studentEstimator","spearmanEstimator","shrinkEstimator","covOGKEstimator",".bayesSteinEstimator"), labels=c("Sample Covariance", "Ledoit-Wolf Bayesian Shrinkage","Multivariate Student-t","Spearman Estimator","Shrinkage Estimator","Orthogonalized Gnanadesikan-Kettenring","Bayesian Stein-Estimator"), title="Select Correlation Estimator")
 CovVariable <- CovVariable
 tkgrid(CovFrame,sticky="w")
 
@@ -156,7 +175,7 @@ tkgrid(StrategyFrame,riskTypeFrame, ConstraintFrame, rightFrame,CovFrame,sticky=
 
   #====Lambda entry
   lambdaFrame <- tkframe(rightFrame)
-  lambdaVariable <- tclVar("1m")
+  lambdaVariable <- tclVar("3m")
   lambdaField <- tkentry(lambdaFrame, width="6", textvariable=lambdaVariable)
   tkgrid(tklabel(lambdaFrame, text="Smooth Lambda = ", fg="blue"), lambdaField, sticky="w")
   tkgrid(lambdaFrame, sticky="w")
@@ -181,7 +200,7 @@ tkgrid(StrategyFrame,riskTypeFrame, ConstraintFrame, rightFrame,CovFrame,sticky=
 
 
 
-.iClickPortfolio <- function (dataset, assetsRM, bench, Type="MV",Rf=0,lambda="1m",plots="simple"){
+.iClickPortfolio <- function (dataset, assetsRM, bench, Type,Rf=0,lambda,plots){
 
   if (assetsRM=="None") {
     dat=dataset} else {
@@ -208,8 +227,8 @@ tkgrid(StrategyFrame,riskTypeFrame, ConstraintFrame, rightFrame,CovFrame,sticky=
 
 .iClickBacktesting_Menu <- function(){
   retAS=get("retAS",envir = .JFEEnv)
-  top <- tktoplevel(borderwidth=10)
-  tkwm.title(top, "iClick for Portfolio")
+  top <- tktoplevel(borderwidth=25)
+  tkwm.title(top, "Backtesting all covariances. It takes time!")
 
   xBox <- .variableListBox(top,c("None",colnames(retAS)),title="Pick 1 bench asset")
   xBoxRM <- .variableListBox(top, c("None", colnames(retAS)), title="Pick assets you won't use", selectmode = "extended")
@@ -267,7 +286,7 @@ plotsVariable <- plotsVariable
 
   #Lambda entry
   lambdaFrame <- tkframe(rightFrame)
-  lambdaVariable <- tclVar("1m")
+  lambdaVariable <- tclVar("3m")
   lambdaField <- tkentry(lambdaFrame, width="6", textvariable=lambdaVariable)
   tkgrid(tklabel(lambdaFrame, text="Smooth Lambda = ", fg="blue"), lambdaField, sticky="w")
   tkgrid(lambdaFrame, sticky="w")
@@ -302,7 +321,7 @@ plotsVariable <- plotsVariable
 
 
 
-.iClick.backTesting <- function(dat,Type="MV",Lambda="1m",plots="all",Rf) {
+.iClick.backTesting <- function(dat,Type,Lambda,plots="all",Rf) {
 
   #    stopifnot(class(dat) == "timeSeries")
 
@@ -310,12 +329,12 @@ plotsVariable <- plotsVariable
   idNAMEs=names(newData)[-1]
 
   myFormula = as.formula(paste("Rp", paste(names(newData)[-1], collapse= "+"),sep="~"))
-  COV=c("covEstimator",".covLedoit",".ShrinkCC",".covstudent",".GoldSach","kendallEstimator")
+  COV=c("covEstimator",".ledoitWolfEstimator",".studentEstimator","spearmanEstimator","covOGKEstimator",".bayesSteinEstimator","shrinkEstimator")
 
 
   if (Type=="MV") {
     mySpec1 = portfolioSpec()
-    setType(mySpec1)=Type
+    suppressMessages(setType(mySpec1) <- Type)
     setRiskFreeRate(mySpec1) <- as.numeric(Rf)
     #setSolver(mySpec1)= "solveRquadprog"
 
@@ -332,12 +351,12 @@ plotsVariable <- plotsVariable
 
     OUT.GMVP=list()
     mySpec2 = portfolioSpec()
-    setType(mySpec2)=Type
+    suppressMessages(setType(mySpec2) <- Type)
     setRiskFreeRate(mySpec2) <- as.numeric(Rf)
     for (i in 1:length(COV)){
       setEstimator(mySpec2)=COV[i]
       myBacktest2 = portfolioBacktest()
-      setStrategyFun(myBacktest2)="GMVPStrategy"
+      setStrategyFun(myBacktest2)=".GMVPStrategy"
       myPort2 = portfolioBacktesting(myFormula,data = newData, spec = mySpec2,trace = FALSE, backtest=myBacktest2,constraints = "LongOnly")
       setSmootherLambda(myBacktest2) = Lambda
       mySmoothPort.tmp2 = portfolioSmoothing(object=myPort2,trace = FALSE)
@@ -346,7 +365,7 @@ plotsVariable <- plotsVariable
 
   } else if (Type=="CVaR") {
     mySpec3 = portfolioSpec()
-    setType(mySpec3)=Type
+    suppressMessages(setType(mySpec3) <- Type)
     setRiskFreeRate(mySpec3) <- as.numeric(Rf)
     setSolver(mySpec3)= "solveRglpk.CVAR"
     OUT.tangency=list()
@@ -361,14 +380,14 @@ plotsVariable <- plotsVariable
     }
 
     mySpec4 = portfolioSpec()
-    setType(mySpec4)= Type
+    suppressMessages(setType(mySpec4) <- Type)
     setRiskFreeRate(mySpec4) <- as.numeric(Rf)
     setSolver(mySpec4)= "solveRglpk.CVAR"
     OUT.GMVP=list()
     for (i in 1:length(COV)){
       setEstimator(mySpec4)=COV[i]
       myBacktest4 = portfolioBacktest()
-      setStrategyFun(myBacktest4)="GMVPStrategy"
+      setStrategyFun(myBacktest4)=".GMVPStrategy"
       myPort4 = portfolioBacktesting(myFormula,data = newData, spec = mySpec4, trace = FALSE, backtest=myBacktest4,constraints = "LongOnly")
       setSmootherLambda(myBacktest4) = Lambda
       mySmoothPort.tmp4 = portfolioSmoothing(object=myPort4,trace = FALSE)
@@ -382,10 +401,10 @@ plotsVariable <- plotsVariable
   NAMES=c(
     paste("1.  ", paste(Type," + Tangency", sep=""),sep=""),
     paste(2:(length(COV)+1),COV,sep=".  "),
-    paste("8.  Save ", savedfile1, sep=""),
-    paste("9.  ", Type," + GMVP", sep=""),
-    paste(10:(length(COV)+9),COV,sep=". "),
-    paste("16. Save ", savedfile2, sep=""))
+    paste("9.  Save ", savedfile1, sep=""),
+    paste("10.  ", Type," + GMVP", sep=""),
+    paste(11:(length(COV)+10),COV,sep=". "),
+    paste("18. Save ", savedfile2, sep=""))
 
   Sys.setlocale(category = "LC_ALL", locale = "English_United States.1252")
 
@@ -401,13 +420,12 @@ plotsVariable <- plotsVariable
     ## 2.
     if (type == 2) {
       if (plots=="no"){} else if (plots=="simple") {
-        dev.new;
+
         par(mfrow=c(3,1))
-        backtestPlot(OUT.tangency[[1]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[1]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        dev.new;
-        backtestPlot(OUT.tangency[[1]], cex = 0.6, font = 1, family = "mono", which="all")}
+        dev.new;backtestPlot(OUT.tangency[[1]], cex = 0.6, font = 1, family = "mono", which="all")}
       netPerformance(OUT.tangency[[1]])
 
       smoothWeights = round(100*OUT.tangency[[1]]$smoothWeights,2)
@@ -424,13 +442,13 @@ plotsVariable <- plotsVariable
 
     ## 3.
     if (type == 3) {
-      dev.new;
+
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.tangency[[2]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+       dev.new; backtestPlot(OUT.tangency[[2]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.tangency[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new; backtestPlot(OUT.tangency[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[2]])
 
       smoothWeights = round(100*OUT.tangency[[2]]$smoothWeights,2)
@@ -446,13 +464,13 @@ plotsVariable <- plotsVariable
 
     ## 4.
     if (type == 4) {
-      dev.new;
+
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[3]])
 
       smoothWeights = round(100*OUT.tangency[[3]]$smoothWeights,2)
@@ -468,13 +486,12 @@ plotsVariable <- plotsVariable
 
     ## 5.
     if (type == 5) {
-      dev.new;
-      if (plots=="simple") {
+       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[4]])
 
       smoothWeights = round(100*OUT.tangency[[4]]$smoothWeights,2)
@@ -491,13 +508,12 @@ plotsVariable <- plotsVariable
 
     # 6
     if (type == 6) {
-      dev.new;
-      if (plots=="simple") {
+       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+         dev.new;backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[5]])
 
       smoothWeights = round(100*OUT.tangency[[5]]$smoothWeights,2)
@@ -513,13 +529,12 @@ plotsVariable <- plotsVariable
 
     ##  7
     if (type == 7) {
-      dev.new;
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.tangency[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.tangency[[6]])
 
       smoothWeights = round(100*OUT.tangency[[6]]$smoothWeights,2)
@@ -534,25 +549,46 @@ plotsVariable <- plotsVariable
 
     }
 
-    ## 8  save results
+    ##  8
     if (type == 8) {
+        if (plots=="simple") {
+        par(mfrow=c(3,1))
+        dev.new;backtestPlot(OUT.tangency[[7]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        par(mfrow=c(1,1))
+      } else if (plots=="all"){
+        dev.new;backtestPlot(OUT.tangency[[7]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+      netPerformance(OUT.tangency[[7]])
+
+      smoothWeights = round(100*OUT.tangency[[7]]$smoothWeights,2)
+      ID=colnames(smoothWeights)
+      colnames(smoothWeights)=unlist(lapply(strsplit(ID,"X"),function(x) x[2]))
+      id.no=which(tail(smoothWeights,1)!=0)
+      selection=tail(smoothWeights,1)[,id.no]
+      selection=data.frame(idNAMEs[id.no],selection)
+      colnames(selection)=c("Asset","Weights")
+      print(paste("Next-Period Advice by ",COV[1],sep=""))
+      print(data.frame(selection))
+
+    }
+
+    ## 9  save results
+    if (type == 9) {
 
       save(OUT.tangency,file=savedfile1)}
 
-    ## 9. Show results
-    if (type == 9) {
+    ## 10. Show results
+    if (type == 10) {
       print(paste(Type," + GMVP", sep=""))
     }
 
-    ## 10.
-    if (type == 10) {
-      dev.new;
+    ## 11.
+    if (type == 11) {
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[1]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[1]])
 
       smoothWeights = round(100*OUT.GMVP[[1]]$smoothWeights,2)
@@ -566,15 +602,14 @@ plotsVariable <- plotsVariable
       print(data.frame(selection))
     }
 
-    ## 11.
-    if (type == 11) {
-      dev.new;
-      if (plots=="simple") {
+    ## 12.
+    if (type == 12) {
+        if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[2]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[2]])
       smoothWeights = round(100*OUT.GMVP[[2]]$smoothWeights,2)
       ID=colnames(smoothWeights)
@@ -587,15 +622,15 @@ plotsVariable <- plotsVariable
       print(data.frame(selection))
     }
 
-    ## 12.
-    if (type == 12) {
-      dev.new;
+    ## 13.
+    if (type == 13) {
+
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[3]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[3]])
 
       smoothWeights = round(100*OUT.GMVP[[3]]$smoothWeights,2)
@@ -609,15 +644,15 @@ plotsVariable <- plotsVariable
       print(data.frame(selection))
     }
 
-    ## 13.
-    if (type == 13) {
-      dev.new;
+    ## 14.
+    if (type == 14) {
+
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[4]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[4]])
 
       smoothWeights = round(100*OUT.GMVP[[4]]$smoothWeights,2)
@@ -631,15 +666,15 @@ plotsVariable <- plotsVariable
       print(data.frame(selection))
     }
 
-    # 14
-    if (type == 14) {
-      dev.new;
+    # 15
+    if (type == 15) {
+
       if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[5]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[5]])
 
       smoothWeights = round(100*OUT.GMVP[[5]]$smoothWeights,2)
@@ -653,15 +688,15 @@ plotsVariable <- plotsVariable
       print(data.frame(selection))
     }
 
-    ##  15
-    if (type == 15) {
-      dev.new;
-      if (plots=="simple") {
+    ##  16
+    if (type == 16) {
+
+        if (plots=="simple") {
         par(mfrow=c(3,1))
-        backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        dev.new;backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
         par(mfrow=c(1,1))
       } else if (plots=="all"){
-        backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+        dev.new;backtestPlot(OUT.GMVP[[6]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
       netPerformance(OUT.GMVP[[6]])
       smoothWeights = round(100*OUT.GMVP[[6]]$smoothWeights,2)
       ID=colnames(smoothWeights)
@@ -674,8 +709,31 @@ plotsVariable <- plotsVariable
       print(data.frame(selection))
     }
 
-    ## 16  save results
-    if (type == 16) {
+    ##  17
+    if (type == 17) {
+
+        if (plots=="simple") {
+        par(mfrow=c(3,1))
+        dev.new;backtestPlot(OUT.GMVP[[7]], cex = 0.6, font = 1, family = "mono", which=c(4:6))
+        par(mfrow=c(1,1))
+      } else if (plots=="all"){
+        dev.new;backtestPlot(OUT.GMVP[[7]], cex = 0.6, font = 1, family = "mono", which="all")} else if (plots=="no"){}
+      netPerformance(OUT.GMVP[[7]])
+      smoothWeights = round(100*OUT.GMVP[[7]]$smoothWeights,2)
+      ID=colnames(smoothWeights)
+      colnames(smoothWeights)=unlist(lapply(strsplit(ID,"X"),function(x) x[2]))
+      id.no=which(tail(smoothWeights,1)!=0)
+      selection=tail(smoothWeights,1)[,id.no]
+      selection=data.frame(idNAMEs[id.no],selection)
+      colnames(selection)=c("Asset","Weights")
+      print(paste("Next-Period Advice by ",COV[1],sep=""))
+      print(data.frame(selection))
+    }
+
+
+
+    ## 18  save results
+    if (type == 18) {
       save(OUT.GMVP,file=savedfile2)   }
 
   }  #End of dataRefreshCode()
@@ -738,6 +796,12 @@ plotsVariable <- plotsVariable
         dataRefreshCode()},
       function(...){
         .iClickBackTesting(obj.name = "plotType", obj.value = "16")
+        dataRefreshCode()},
+      function(...){
+        .iClickBackTesting(obj.name = "plotType", obj.value = "17")
+        dataRefreshCode()},
+      function(...){
+        .iClickBackTesting(obj.name = "plotType", obj.value = "18")
         dataRefreshCode()}
     ),
 
@@ -796,7 +860,7 @@ plotsVariable <- plotsVariable
     }
 
     #loop through button names
-    for (i in 1:8) {
+    for (i in 1:9) {
       button.fun <-button.functions[[i]]
       plotButtons<-tkbutton(framed.button1, text = button.names[i], command = button.fun, anchor = "nw",relief="ridge",width = "45")
       tkconfigure(plotButtons,foreground="blue",font=tkfont.create(size=12
@@ -804,7 +868,7 @@ plotsVariable <- plotsVariable
       tkpack(plotButtons,fill = "x", pady=1)
 
     }
-    for (i in 9:16) {
+    for (i in 10:18) {
       button.fun <-button.functions[[i]]
       plotButtons<-tkbutton(framed.button2, text = button.names[i], command = button.fun, anchor = "nw",relief="ridge",width = "45")
       tkconfigure(plotButtons,foreground="blue",font=tkfont.create(size=12
@@ -837,105 +901,10 @@ plotsVariable <- plotsVariable
   }
 
 
-
-.covLedoit <- function (data, spec = NULL) {
-  x.mat = as.matrix(data)
-  list(mu = colMeans(x.mat), Sigma = .SKCov(x.mat)$sigma)
-}
-
-
-.SKCov <- function(data) {
-  dat=data
-  t=nrow(dat)
-  n=ncol(dat)
-
-  x=(diag(t)-matrix(1,t,t)/t)%*%dat
-
-  xmkt=apply(x,1,mean)
-  sMat=data.frame(x, xmkt)
-  sample=cov(sMat)*(t-1)/t
-  covmkt=sample[1:n,n+1]
-  varmkt=sample[n+1,n+1]
-
-  sample=sample[,-(n+1)]
-  sample=sample[-(n+1),]
-
-  prior=covmkt%*%t(covmkt)/varmkt
-  diag(prior)=diag(sample)
-
-  c=base::norm(sample-prior,"f")^2
-  y=x^2
-  p=1/t*sum(sum(t(y)%*%y))-sum(sum(sample^2))
-
-  # r is divided into diagonal
-  # and off-diagonal terms, and the off-diagonal term
-  # is itself divided into smaller terms
-  rdiag=1/t*sum(sum(y^2))-sum(diag(sample)^2)
-  z=x*replicate(n,as.numeric(xmkt))
-
-  v1=1/t*(t(y)%*%z)-replicate(n,covmkt)*sample
-
-  roff1=sum(sum(v1*t(replicate(n,covmkt))))/varmkt-sum(diag(v1)*covmkt)/varmkt
-  v3=1/t*t(z)%*%z-varmkt*sample
-  roff3=sum(sum(v3*(covmkt%*%t(covmkt))))/varmkt^2-sum(diag(v3)*covmkt^2)/varmkt^2
-  roff=2*roff1-roff3
-  r=rdiag+roff
-  # compute shrinkage constant
-  k=(p-r)/c
-  skg=max(0,min(1,k/t))
-
-  # compute the estimator
-  sig=skg*prior+(1-skg)*sample
-  w=list(sigma=sig,shrinkage=skg,prior=prior)
-  return(w)
-}
-
-.covStudent <- function (data, spec = NULL) {
-  ###===Multivariate Student t=======###
-  x.mat =as.matrix(data)
-  list(mu = colMeans(x.mat), Sigma = MASS::cov.trob(x.mat)$cov)
-}
-
-
-.GMVPStrategy <-function (data, spec = portfolioSpec(), constraints = "LongOnly", backtest = portfolioBacktest()) {
+.GMVPStrategy <- function(data, spec = portfolioSpec(), constraints = "LongOnly", backtest = portfolioBacktest()) {
   strategyPortfolio <- try(minriskPortfolio(data, spec, constraints))
   if (class(strategyPortfolio) == "try-error") {
     strategyPortfolio <- minvariancePortfolio(data,spec,constraints)
   }
   strategyPortfolio
 }
-
-
-###==========###
-
-.GoldSach <- function(data, spec = NULL){
-  x.mat = data
-  rho=0.95
-  t=nrow(x.mat)
-  p=(t-1):0
-  w=rho^p
-  dat=sqrt(w)*x.mat
-  Sig=cov(dat)*t/sum(w)
-  list(mu =colMeans(x.mat) , Sigma =Sig)
-}
-
-###===Constant Correlation===###
-
-.ShrinkCC <- function (data,spec = NULL) {
-  x.mat =data
-  t=nrow(x.mat)
-  p=(t-1):0
-  rho=0.95
-  w=rho^p
-  list(mu = colMeans(x.mat), Sigma = BurStFin::var.shrink.eqcor(x.mat,weights=1))
-}
-
-
-
-
-
-###==========###
-#.LPM<-function(data, spec = NULL){
-#  list(mu = fAssets::assetsLPM(data)$mu, Sigma = fAssets::assetsLPM(data)$Sigma)
-#}
-

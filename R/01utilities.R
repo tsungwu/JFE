@@ -195,4 +195,95 @@ function(x, labels = TRUE, type = "l", col = "indianred2",title = TRUE, grid = T
 }
 
 
+downloadStockAI <- function (key="5edl69aag5", var.name="TWECO", from="2006-01-01", to="2015-12-31",
+                            showdata=TRUE){
+  #key="5edl69aag5" From 2006/1/1 to 2015/12/31
+  path<-"https://stock-ai.com/history-data-download?symbol="
+
+
+  url<-paste0(path,var.name, "&export=csv&startDate=",from,"&endDate=",to,"&key=", key,"&export=.csv")
+  filname<-paste0(var.name,".csv")
+#  temp <- tempfile(tmp=getwd(),fileext = ".csv")
+  download.file(url,destfile=filname,quiet =TRUE)
+  temp0 <- read.csv(filname)
+  timeID<-temp0[,1]
+  y<-as.matrix(temp0[,2])
+  colnames(y)<-var.name
+  row.names(y)<-timeID
+  y<-timeSeries::as.timeSeries(y)
+  return(y)
+  if (showdata) {
+  print(head(y))
+  print(tail(y))
+  }
+
+}
+
+ttsDS <- function (y,x=NULL, arOrder=2,xregOrder=0,type=NULL) {
+#type=c("none","trend","season","both")
+  if (!is.null(x)) {
+    x=timeSeries::as.timeSeries(x)
+    if ( nrow(y) != nrow(x) ) {print("Variables must have the same rows.")}
+  }
+
+  if (!timeSeries::is.timeSeries(y)) {stop("Data must be a timeSeries object.")}
+
+  if (is.null(type)) {type="none" }
+
+  p=max(arOrder,xregOrder)
+  colNAMES=c(outer(paste0(names(x),"_L"),0:p,FUN=paste0))
+  if (p==0) {
+    y=y
+    datasetX=x
+    ar0=NULL
+  } else {
+    datasetY=timeSeries::as.timeSeries(embed(y,p+1),timeSeries::time(y)[-c(1:p)])
+    y=datasetY[,1]
+    ar0=datasetY[,-1]
+    colnames(ar0)=paste0("ar",1:p)
+
+    if (is.null(x)) {datasetX=NULL
+    } else {
+      datasetX=timeSeries::as.timeSeries(embed(x,p+1),timeSeries::time(x)[-c(1:p)])
+
+      colnames(datasetX)=colNAMES
+    }
+  }
+
+  colnames(y)="y"
+
+
+  if (min(arOrder)==0) {ar=NULL
+  }  else {ar=ar0[,paste0("ar",arOrder)]}
+
+
+
+  if (is.null(x)) {X=datasetX} else {
+    L.ID=paste0("L",xregOrder)
+
+    IDx=NULL
+    for (i in L.ID) {IDx=c(IDx,grep(colNAMES,pattern=i))}
+    X=datasetX[,IDx]
+  }
+
+
+  DF <- na.omit(cbind(y,ar,X))
+  trend <- 1:nrow(DF)
+
+  if (timeSeries::isRegular(y)) {
+    seasonDummy <- data.frame(forecast::seasonaldummy(as.ts(y)))
+    DF0 <- cbind(ar0,X,seasonDummy,trend)
+  } else {DF0 <- cbind(ar0,X,trend)}
+
+
+
+  if (type=="trend") {DF<-cbind(DF,trend)} else if (type=="sesaon") {DF<-cbind(DF,seasonDummy)
+  } else if (type=="both") {DF<-cbind(DF,trend,seasonDummy)
+  } else {DF <- DF}
+
+return(DF)
+}
+
+
+
 
