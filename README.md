@@ -1,6 +1,6 @@
 # JFE
 R Package: Just Finance and Econometrics
-Check http://web.ntnu.edu.tw/~tsungwu/R_DevOps/R_DevOps.htm for more information. Version 1.3 is the newest one, which includes GARCH in Returns Anaytics.
+Version 2.5.3 is the newest one, which includes GARCH in Returns Anaytics.
 
 <Price Analytics>
 1. Price Analytics loads price data from .RData.  Technical charting needs OHLC data
@@ -21,3 +21,6 @@ Check http://web.ntnu.edu.tw/~tsungwu/R_DevOps/R_DevOps.htm for more information
 2. To use this function, you must have a multivariate time series dataset with R format, xts is most encourgaed; and the file is saved in .RData or .rda. Users may download the dataset DJ30.Rdata in above web page, which is close price of Dow Jones 30 component Stocks.
 3. If the loaded data is price, then you have to pull down the menu and choose Transform Price Data, else, Load Returns Data.
 4. The Next-Month Advice is the output bottom is the assets weights suggestion computed by backtesting for the next period from the end of data. The rolling length is 1 month and estimation is 1 year, which are not allowed to change so far   
+
+<Open data download>
+Get data from Dr. French's data library, BIS and Fed, including TWSE's 5-second indices.
