@@ -1,9 +1,10 @@
 exportPattern("^[[:alpha:]]+")
-import("caret","fPortfolio","xts","magrittr","tcltk","tcltk2")
+import("fPortfolio","xts","tcltk","tcltk2")
 importFrom("grDevices", "dev.new","colorRampPalette")
 importFrom("graphics", "abline", "legend","lines","par","plot", "plot.new", "grid", "rug", "text")
-importFrom("utils", "data", "download.file","head","read.csv","tail", "write.csv")
-importFrom("stats", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var", "as.ts", "complete.cases", "embed", "end","predict", "window")
-importFrom("magrittr","%>%")
+importFrom("utils", "data", "download.file","head","read.csv", "read.delim","tail", "write.csv")
+importFrom("stats", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var", "as.ts", "embed")#, "complete.cases", "end","predict", "window")
+#importFrom("base", "tempfile","tempdir")
+
 export("JFE")
 
