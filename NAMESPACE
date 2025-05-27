@@ -1,10 +1,6 @@
 exportPattern("^[[:alpha:]]+")
-import("fPortfolio","xts","tcltk","tcltk2")
-importFrom("grDevices", "dev.new","colorRampPalette")
-importFrom("graphics", "abline", "legend","lines","par","plot", "plot.new", "grid", "rug", "text")
-importFrom("utils", "data", "download.file","head","read.csv", "read.delim","tail", "write.csv")
-importFrom("stats", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var", "as.ts", "embed")#, "complete.cases", "end","predict", "window")
-#importFrom("base", "tempfile","tempdir")
-
-export("JFE")
-
+import("xts")
+importFrom("graphics", "abline", "legend","lines","par","plot", "plot.new", "grid", "rug", "text", "title")
+importFrom("utils", "data", "download.file","head","read.csv", "read.delim","tail")
+importFrom("stats", "fitted", "pnorm", "resid", "vcov","as.ts", "as.formula","coef", "cor", "cov","lm", "na.omit","quantile","residuals","sd","time","var", "embed")
+#export("JFE")
