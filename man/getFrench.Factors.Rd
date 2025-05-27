@@ -9,7 +9,8 @@
 It downloads seven factors data used for asset pricing analysis from the data library of Dr. Kenneth R. French at Dartmouth College.
 }
 \usage{
-getFrench.Factors(filename="F-F_Research_Data_5_Factors_2x3")
+#To save time, the example below is commented.
+#getFrench.Factors(filename="F-F_Research_Data_5_Factors_2x3")
 }
 
 \arguments{
@@ -49,8 +50,8 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 }
 
 \examples{
-
-getFrench.Factors(filename="F-F_Research_Data_Factors")
+#Data server may reject external connection. If it happens, never mind.
+#getFrench.Factors(filename="F-F_Research_Data_Factors")
 
 
 }
