@@ -5,7 +5,7 @@
 
 \title{Burke ratio of the return distribution}
 \usage{
-BurkeRatio(R, Rf = 0, modified = FALSE, ...)
+BurkeRatio(R, Rf = 0, modified = FALSE)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -15,7 +15,7 @@ asset returns}
 
 \item{modified}{a boolean to decide which ratio to calculate between Burke ratio and modified Burke ratio.}
 
-\item{\dots}{any other passthru parameters}
+
 }
 \description{
 To calculate Burke ratio we take the difference between the portfolio

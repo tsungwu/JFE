@@ -4,7 +4,7 @@
 
 \title{Pain ratio of the return distribution}
 \usage{
-PainRatio(R, Rf = 0, ...)
+PainRatio(R, Rf = 0)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -12,7 +12,6 @@ asset returns}
 
 \item{Rf}{risk free rate, in same period as your returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 To calculate Pain ratio we divide the difference of the portfolio return

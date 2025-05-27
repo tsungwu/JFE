@@ -5,7 +5,7 @@
 
 \title{Martin ratio of the return distribution}
 \usage{
-MartinRatio(R, Rf = 0, ...)
+MartinRatio(R, Rf = 0)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -13,7 +13,6 @@ asset returns}
 
 \item{Rf}{risk free rate, in same period as your returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 To calculate Martin ratio we divide the difference of the portfolio return

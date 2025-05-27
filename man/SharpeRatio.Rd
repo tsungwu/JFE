@@ -5,7 +5,7 @@
 VaR or ES}
 
 \usage{
-SharpeRatio(R, Rf = 0, alpha = 0.05, FUN="StdDev",annualize=FALSE, ...)
+SharpeRatio(R, Rf = 0, alpha = 0.05, FUN="StdDev",annualize=FALSE)
 
 }
 \arguments{
@@ -20,7 +20,6 @@ asset returns}
 
 \item{annualize}{if TRUE, annualize the measure, default FALSE}
 
-\item{\dots}{any other passthru parameters to the VaR or ES functions}
 }
 \description{
 The Sharpe ratio is simply the return per unit of risk (represented by

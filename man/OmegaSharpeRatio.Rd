@@ -5,7 +5,7 @@
 
 \title{Omega-Sharpe ratio of the return distribution}
 \usage{
-OmegaSharpeRatio(R, MAR = 0, ...)
+OmegaSharpeRatio(R, MAR = 0)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -14,8 +14,8 @@ asset returns}
 \item{MAR}{Minimum Acceptable Return, in the same periodicity as your
 returns}
 
-\item{\dots}{any other passthru parameters}
 }
+
 \description{
 The Omega-Sharpe ratio is a conversion of the omega ratio to a ranking statistic
 in familiar form to the Sharpe ratio.

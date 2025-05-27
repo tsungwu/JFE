@@ -4,7 +4,7 @@
 
 \title{Adjusted Sharpe ratio of the return distribution}
 \usage{
-AdjustedSharpeRatio(R, Rf = 0, FUN = "StdDev",...)
+AdjustedSharpeRatio(R, Rf = 0, FUN = "StdDev")
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -14,8 +14,8 @@ asset returns}
 
 \item{FUN}{one of "StdDev" or "VaR" or "ES" to use as the denominator for unadjusted Sharpe ratio, default="StdDev"}
 
-\item{\dots}{any other pass through parameters}
 }
+
 \description{
 Adjusted Sharpe ratio was introduced by Pezier and White (2006) to adjusts
 for skewness and kurtosis by incorporating a penalty factor for negative skewness
@@ -42,9 +42,7 @@ Hedge Fund Indices and of Funds of Hedge Funds in Optimal Passive Portfolios.
 Check \url{https://econpapers.repec.org/paper/rdgicmadp/icma-dp2006-10.htm} \cr
 See also package \code{PerformanceAnalytics}.
 }
-\seealso{
-\code{\link{SharpeRatio.annualized}}
-}
+
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

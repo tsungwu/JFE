@@ -3,7 +3,7 @@
 \encoding{latin1}
 \title{Volatility and variability of the return distribution}
 \usage{
-VolatilitySkewness(R, MAR = 0, stat = c("volatility", "variability"), ...)
+VolatilitySkewness(R, MAR = 0, stat = c("volatility", "variability"))
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -15,7 +15,6 @@ returns}
 \item{stat}{one of "volatility", "variability" indicating whether
 to return the volatility skewness or the variability skweness}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 Volatility skewness is a similar measure to omega but using the second

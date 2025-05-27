@@ -11,7 +11,7 @@ annualized return.
 }
 
 \usage{
-ActivePremium(Ra, Rb, scale = NA, ...)
+ActivePremium(Ra, Rb, scale = NA)
 }
 \arguments{
 \item{Ra}{return vector of the portfolio}
@@ -21,8 +21,6 @@ ActivePremium(Ra, Rb, scale = NA, ...)
 \item{scale}{number of periods in a year
 (daily scale = 252, monthly scale = 12, quarterly scale = 4)}
 
-\item{...}{any other passthru parameters to Return.annualized
-(e.g., \code{geometric=FALSE})}
 }
 
 \details{
@@ -33,10 +31,10 @@ With a view to speeding computation. I re-write the code of some ratios of the p
 \examples{
 
   data(assetReturns)
-	assetReturns=assetReturns["2011::2018"] #short sample for fast example
-	Ra=assetReturns[, -29]
-	Rb=assetReturns[,29] #DJI
-  ActivePremium(Ra, Rb)
+	assetReturns=assetReturns["2015::2018"] #short sample for fast example
+#	Ra=assetReturns[, -29]
+#	Rb=assetReturns[,29] #DJI
+#  ActivePremium(Ra, Rb)
 
 }
 \references{
@@ -44,9 +42,12 @@ Sharpe, W.F. The Sharpe Ratio,\emph{Journal of Portfolio Management}, Fall 1994,
 See aslo package \code{PerformanceAnalytics}.
 }
 \seealso{
-\code{\link{InformationRatio}} \code{\link{TrackingError}}
-  \code{\link{Return.annualized}}
+\code{\link{Return.annualized}}, \cr
+\code{\link{InformationRatio}}, \cr
+\code{\link{TrackingError}}, \cr
 }
+
+
 \author{
 Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal University.
 }

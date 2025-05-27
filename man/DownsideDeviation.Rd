@@ -3,7 +3,7 @@
 \encoding{latin1}
 \title{downside risk (deviation, variance) of the return distribution}
 \usage{
-DownsideDeviation(R, MAR = 0, method = c("full", "subset"),potential = FALSE,...)
+DownsideDeviation(R, MAR = 0, method = c("full", "subset"),potential = FALSE)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -19,7 +19,6 @@ the MAR as the denominator, defaults to "full"}
 \item{potential}{if TRUE, calculate downside potential instead, default
 FALSE}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 Downside deviation, semideviation, and semivariance are measures of downside
@@ -93,7 +92,7 @@ second edition 2008
 
 Plantinga, A., van der Meer, R. and Sortino, F. The Impact of Downside Risk
 on Risk-Adjusted Performance of Mutual Funds in the Euronext Markets. July
-19, 2001. Available at SSRN:\url{https://www.ssrn.com/abstract=277352} \cr
+19, 2001. Available at SSRN:\url{https://papers.ssrn.com/sol3/papers.cfm?abstract_id=277352} \cr
 see especially end note 10 \url{https://en.wikipedia.org/wiki/Semivariance}. \cr
 
 See also package \code{PerformanceAnalytics}.

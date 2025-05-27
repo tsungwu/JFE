@@ -7,6 +7,7 @@ length history}
 \usage{
 Return.annualized(R, scale = NA, geometric = TRUE)
 }
+
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
 asset returns}
@@ -16,6 +17,8 @@ asset returns}
 
 \item{geometric}{utilize geometric chaining (TRUE) or simple/arithmetic chaining (FALSE) to aggregate returns, default TRUE}
 }
+
+
 \description{
 An average annualized return is convenient for comparing returns.
 }

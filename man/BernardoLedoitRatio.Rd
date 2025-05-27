@@ -5,13 +5,12 @@
 
 \title{Bernardo and Ledoit ratio of the return distribution}
 \usage{
-BernardoLedoitRatio(R, ...)
+BernardoLedoitRatio(R)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
 asset returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 To calculate Bernardo and Ledoit ratio we take the sum of the subset of

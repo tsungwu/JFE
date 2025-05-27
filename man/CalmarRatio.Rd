@@ -46,7 +46,7 @@ should be preferred to the Calmar or Sterling Ratio.
   data(assetReturns)
 	R=assetReturns[, -29]
 
-    SterlingRatio(R)
+#    SterlingRatio(R)
 
 }
 \references{

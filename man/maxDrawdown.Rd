@@ -4,7 +4,7 @@
 
 \title{caclulate the maximum drawdown from peak equity}
 \usage{
-maxDrawdown(R, geometric = TRUE, invert = TRUE, ...)
+maxDrawdown(R, geometric = TRUE, invert = TRUE)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -16,7 +16,7 @@ default TRUE}
 \item{invert}{TRUE/FALSE whether to invert the drawdown measure.  see
 Details.}
 
-\item{\dots}{any other passthru parameters}
+
 }
 \description{
 To find the maximum drawdown in a return series, we need to first calculate

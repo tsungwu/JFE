@@ -5,13 +5,12 @@
 
 \title{Pain index of the return distribution}
 \usage{
-PainIndex(R, ...)
+PainIndex(R)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
 asset returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 The pain index is the mean value of the drawdowns over the entire

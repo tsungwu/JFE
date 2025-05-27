@@ -5,7 +5,7 @@
 
 \title{Jensen's alpha of the return distribution}
 \usage{
-CAPM.jensenAlpha(Ra, Rb, Rf = 0, ...)
+CAPM.jensenAlpha(Ra, Rb, Rf = 0)
 }
 \arguments{
 \item{Ra}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -15,7 +15,6 @@ asset returns}
 
 \item{Rf}{risk free rate, in same period as your returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 The Jensen's alpha is the intercept of the regression equation in the Capital

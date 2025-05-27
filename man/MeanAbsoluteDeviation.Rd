@@ -5,13 +5,12 @@
 
 \title{Mean absolute deviation of the return distribution}
 \usage{
-MeanAbsoluteDeviation(R, ...)
+MeanAbsoluteDeviation(R)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
 asset returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 To calculate Mean absolute deviation we take the sum of the absolute value of the difference between the returns and the mean of the returns and we divide it by the number of returns.

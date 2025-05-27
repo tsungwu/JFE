@@ -5,7 +5,7 @@
 
 \title{M squared for Sortino of the return distribution}
 \usage{
-M2Sortino(Ra, Rb, MAR = 0, ...)
+M2Sortino(Ra, Rb, MAR = 0)
 }
 \arguments{
 \item{Ra}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -15,7 +15,6 @@ asset return}
 
 \item{MAR}{the minimum acceptable return}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 M squared for Sortino is a M^2 calculated for Downside risk instead of Total Risk

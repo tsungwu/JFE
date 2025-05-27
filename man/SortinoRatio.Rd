@@ -3,7 +3,7 @@
 \encoding{latin1}
 \title{calculate Sortino Ratio of performance over downside risk}
 \usage{
-SortinoRatio(R, MAR = 0,...)
+SortinoRatio(R, MAR = 0)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -12,7 +12,6 @@ asset returns}
 \item{MAR}{Minimum Acceptable Return, in the same periodicity as your
 returns}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 Sortino proposed an improvement on the Sharpe Ratio to better account for

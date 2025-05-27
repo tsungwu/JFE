@@ -4,13 +4,13 @@
 
 \title{Skewness-Kurtosis ratio of the return distribution}
 \usage{
-SkewnessKurtosisRatio(R, ...)
+SkewnessKurtosisRatio(R)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
 asset returns}
 
-\item{\dots}{any other pass through parameters}
+
 }
 \description{
 Skewness-Kurtosis ratio is the division of Skewness by Kurtosis.

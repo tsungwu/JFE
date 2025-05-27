@@ -6,7 +6,7 @@
 
 \usage{
 AppraisalRatio(Ra, Rb, Rf = 0, method = c("appraisal", "modified",
-  "alternative"), ...)
+  "alternative"))
 }
 \arguments{
 \item{Ra}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -20,7 +20,6 @@ asset returns}
 calculate modified Jensen's alpha or "alternative" to calculate alternative
 Jensen's alpha.}
 
-\item{\dots}{any other pass through parameters}
 }
 \description{
 Appraisal ratio is the Jensen's alpha adjusted for specific risk. The numerator

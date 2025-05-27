@@ -5,14 +5,14 @@
 
 \title{d ratio of the return distribution}
 \usage{
-DRatio(R, ...)
+DRatio(R)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
 asset returns}
 
-\item{\dots}{any other passthru parameters}
 }
+
 \description{
 The d ratio is similar to the Bernado Ledoit ratio but inverted and
 taking into account the frequency of positive and negative returns.

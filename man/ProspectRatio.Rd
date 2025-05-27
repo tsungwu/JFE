@@ -4,7 +4,7 @@
 \encoding{latin1}
 \title{Prospect ratio of the return distribution}
 \usage{
-ProspectRatio(R, MAR, ...)
+ProspectRatio(R, MAR)
 }
 \arguments{
 \item{R}{an xts, vector, matrix, data frame, timeSeries or zoo object of
@@ -12,7 +12,6 @@ asset returns}
 
 \item{MAR}{the minimum acceptable return}
 
-\item{\dots}{any other passthru parameters}
 }
 \description{
 Prospect ratio is a ratio used to penalise loss since most people feel loss
