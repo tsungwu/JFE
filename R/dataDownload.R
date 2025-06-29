@@ -47,18 +47,18 @@ getFed <- function (var.name="UNRATE", freq="Monthly"){
 
 
 
-getFrench.Factors<-function(filename="F-F_Research_Data_5_Factors_2x3") {
+getFrench.Factors<-function(filename="F-F_Research_Data_Factors") {
 
-  url="http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/"
+  Url="http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/"
 
   ##Step 1. Download .zip dataset
 
-  if (filename %in% c("F-F_Research_Data_Factors_weekly",
-                       "F-F_Research_Data_5_Factors_2x3"))
-    { fileCSV=paste0(filename,".csv") } else {  fileCSV=paste0(filename,".csv") }
-
+#  if (filename %in% c("F-F_Research_Data_Factors_weekly",
+#                       "F-F_Research_Data_5_Factors_2x3"))
+#    { fileCSV=paste0(filename,".csv") } else {  fileCSV=paste0(filename,".csv") }
+    fileCSV=paste0(filename,".csv")
     fileZIP=paste0(filename,"_CSV.zip")
-    Link=paste0(url,fileZIP)
+    Link=paste0(Url,fileZIP)
     temp = tempfile(tmpdir=getwd(),fileext = ".zip")
     download.file(Link,temp)
 
@@ -88,7 +88,8 @@ getFrench.Factors<-function(filename="F-F_Research_Data_5_Factors_2x3") {
 dat=ff.factor
 table.names="Only one table"
 
-  } else if (filename %in% c("F-F_Research_Data_Factors", "F-F_Research_Data_5_Factors_2x3")) {
+  } else if (filename %in% c("F-F_Research_Data_Factors",
+                             "F-F_Research_Data_5_Factors_2x3")) {
      #Both datasets have two frequencies: monthly and annual
 
 
@@ -174,7 +175,7 @@ getFrench.Portfolios<-function(filename="Portfolios_Formed_on_ME") {
     fileCSV=paste0(filename,".csv")
     fileCSV=gsub(fileCSV,pattern = "daily",replacement = "Daily")
 
-  } else {  fileCSV=paste0(filename,".CSV") }
+  } else {  fileCSV=paste0(filename,".csv") }
 
 
   {
