@@ -1,15 +1,15 @@
 Package: JFE
 Type: Package
 Title: Tools for Analyzing Time Series Data of Just Finance and Econometrics 
-Version: 2.5.10
-Date: 2025-05-27
+Version: 2.5.11
+Date: 2025-06-29
 Authors@R: person(given = "Ho",
                     family = "Tsung-wu",
                     role = c("aut", "cre"),
                     email = "tsungwu@ntnu.edu.tw")
 Author: Ho Tsung-wu [aut, cre]
 Maintainer: Ho Tsung-wu <tsungwu@ntnu.edu.tw>
-Description: Offers procedures to support financial-economic time series modelling and enhanced procedures for computing the investment performance indices of Bacon (2004) <DOI:10.1002/9781119206309>.
+Description: Offer procedures to download financial-economic time series data and enhanced procedures for computing the investment performance indices of Bacon (2004) <DOI:10.1002/9781119206309>.
 License: GPL (>= 2)
 LazyData: TRUE
 LazyLoad: yes
