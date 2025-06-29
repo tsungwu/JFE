@@ -61,11 +61,10 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 
 \examples{
 #To save time, the example below is commented.
-#Data server may not allow external connection. If it happens, never mind.
-#output=getFrench.Portfolios(filename="5_Industry_Portfolios")
-#output$file.name
-#dim(output$data[[1]])
-#output$data
-#output$table.names
+output=getFrench.Portfolios()
+output$file.name
+dim(output$data[[1]])
+output$data
+output$table.names
 
 }

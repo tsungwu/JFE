@@ -9,8 +9,7 @@
 It downloads seven factors data used for asset pricing analysis from the data library of Dr. Kenneth R. French at Dartmouth College.
 }
 \usage{
-#To save time, the example below is commented.
-#getFrench.Factors(filename="F-F_Research_Data_5_Factors_2x3")
+getFrench.Factors(filename="F-F_Research_Data_Factors")
 }
 
 \arguments{
@@ -33,7 +32,7 @@ The name of data file as listed in <"http://mba.tuck.dartmouth.edu/pages/faculty
 
 \details{
 
-This function connects with <"http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"> and downloads the specified factors data. Sometimes, the datafile contains multiple data tables, hence the code returns a list.
+This function connects with <"http://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html"> and downloads the specified factors data. Sometimes, the datafile contains multiple data tables, hence the code returns a list. The website may occur somthing unexpected, for example, "F-F_Research_Data_Factors_weekly" is ill-formated hence the .csv data table cannot be retrieved. However, it was OK before. For this problem, we will not fix the code.
 }
 
 
@@ -50,8 +49,8 @@ Ho Tsung-wu <tsungwu@ntnu.edu.tw>, College of Management, National Taiwan Normal
 }
 
 \examples{
-#Data server may reject external connection. If it happens, never mind.
-#getFrench.Factors(filename="F-F_Research_Data_Factors")
+
+getFrench.Factors()
 
 
 }
